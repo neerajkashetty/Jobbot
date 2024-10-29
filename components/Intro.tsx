@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import TypingAnimation from "../utils/TypingText";
 import Image from "next/image";
+import { ChartNoAxesCombined } from "lucide-react";
 
 export default function Intro() {
   return (
@@ -49,6 +50,13 @@ export default function Intro() {
             height="40"
             className="p-6 rounded-lg bg-white"
           ></Image>
+        </div>
+        <div className="w-1/12 h-1/5 flex flex-col items-center p-2 shadow-md bg-white rounded-lg  absolute top-80 right-96 mr-40">
+          <div className="font-bold justify-center text-black">200K+</div>
+          <ChartNoAxesCombined className="w-full h-full text-blue-500" />
+          <span className="text-xs text-gray-400 font-semibold">
+            people get hired
+          </span>
         </div>
       </div>
     </div>
