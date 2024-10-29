@@ -4,7 +4,7 @@ import Intro from "../components/Intro";
 
 export default function Page() {
   return (
-    <div className="h-screen">
+    <div className="h-screen  ">
       <Header />
       <Intro />
     </div>
