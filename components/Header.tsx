@@ -11,26 +11,32 @@ export default function Header() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
   return (
-    <div className="bg-gray-400 opacity-100 h-1/12 w-full flex justify-between fixed">
-      <div className="text-2xl  font-serif flex items-center">
+    <div className=" h-1/12 w-full flex justify-between relative">
+      <div className="text-sm md:text-2xl  font-serif flex items-center">
         CustomResume
         <Image
           src={"/images/pdf.png"}
           alt="Neeraj"
           width={"60"}
           height={"60"}
+          className="w-6 h-6 md:w-10 md:h-10 "
         />
       </div>
-      <div className="flex text-white font-bold group hover:cursor-pointer text-center items-center">
+      <div className="text-xs md:visible invisible md:text-xl font-bold group hover:cursor-pointer text-center items-center">
         <h6 className="font-mono group-hover:bg-black p-1 rounded-lg">
           Resumes Generated
         </h6>
       </div>
-      <div className="flex text-white font-bold group hover:cursor-pointer text-center items-center">
-        <h6 className="font-mono group-hover:bg-black p-1 rounded-lg">Saved</h6>
+      <div className="flex justify-center font-bold group hover:cursor-pointer items-center">
+        <h6 className="font-mono group-hover:bg-black p-1 rounded-lg flex items-center gap-1">
+          Saved
+          <p className="invisible group-hover:visible">- (1)</p>
+        </h6>
       </div>
-      <div className="flex text-white font-bold group hover:cursor-pointer text-center items-center">
-        <h6 className="font-mono group-hover:bg-black p-1 rounded-lg">Login</h6>
+      <div className="flex font-bold group hover:cursor-pointer md:visible invisible text-center items-center">
+        <h6 className="font-mono group-hover:bg-black p-1 rounded-lg text-blue-500">
+          Login
+        </h6>
       </div>
       <div className="flex items-center gap-2">
         <Sun className="text-blue-500 dark:text-black" />

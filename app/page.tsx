@@ -1,11 +1,12 @@
 "use client";
 import Header from "../components/Header";
+import Intro from "../components/Intro";
 
 export default function Page() {
   return (
-    <div>
+    <div className="h-screen">
       <Header />
-      <h1> Hello Neeraj</h1>
+      <Intro />
     </div>
   );
 }
