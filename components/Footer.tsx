@@ -3,7 +3,7 @@ import { ChartNoAxesCombined, Timer, BriefcaseBusiness } from "lucide-react";
 export default function Footer() {
   return (
     <div className=" w-full h-1/4 absolute flex flex-row">
-      <div className="bg-white w-1/2 justify-evenly flex flex-row">
+      <div className="bg-white w-1/2 justify-evenly flex flex-row dark:bg-transparent">
         <div className=" w-1/4 flex justify-center items-center flex-col">
           <div className="p-1">
             <div className="flex flex-row items-center">
@@ -45,7 +45,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="bg-gray-100 w-1/2"></div>
+      <div className="bg-gray-100 w-1/2 dark:bg-transparent"></div>
     </div>
   );
 }

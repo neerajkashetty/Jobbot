@@ -14,7 +14,7 @@ export default function Header() {
     <div className=" h-1/12 w-full flex  justify-around relative ">
       <div className="flex flex-row w-1/2 justify-between">
         <div className="text-sm md:text-2xl  font-serif flex items-center ">
-          CustomResume
+          <h1 className="text-blue-400">Custom</h1>Resume
           <Image
             src={"/images/pdf.png"}
             alt="Neeraj"

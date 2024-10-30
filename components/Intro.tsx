@@ -3,6 +3,7 @@ import TypingAnimation from "../utils/TypingText";
 import Image from "next/image";
 import { ChartNoAxesCombined } from "lucide-react";
 import { MouseEventHandler } from "react";
+import Link from "next/link";
 
 export default function Intro() {
   const xpcnt = useSpring(0, { bounce: 0 });
@@ -69,10 +70,13 @@ export default function Intro() {
           Use the Ai to make your job search easier by using the<br></br> custom
           resume builder you land the jobs with 10x faster
         </span>
-        <div className="flex flex-col gap-10 w-1/2 h-1/6 text-white ">
-          <button className="w-1/2 h-1/2 rounded-3xl  font-extrabold bg-blue-400 p-1">
+        <div className="flex flex-col gap-10 items-center justify-center w-1/2 h-1/6 text-white ">
+          <Link
+            href={"resume"}
+            className="w-1/2 h-1/2 rounded-3xl justify-center flex items-center font-extrabold bg-blue-400 p-1"
+          >
             Build My Resume
-          </button>
+          </Link>
         </div>
       </div>
       <h1 className="w-0.5 h-full" />
