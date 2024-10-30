@@ -39,7 +39,7 @@ export default function TypingAnimation({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, repeat: 40 }}
-          className="w-4 h-10 bg-red-800"
+          className="w-4 h-10 bg-blue-600"
         >
           |
         </motion.span>
