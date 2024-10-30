@@ -11,7 +11,6 @@ export default function TypingAnimation({
   classname,
 }: TypingAnimationProps): JSX.Element {
   const words = text.split(" ");
-  console.log(words);
   const [displayedText, setDisplayedText] = useState<string>("");
   const [index, setIndex] = useState<number>(0);
 

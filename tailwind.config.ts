@@ -9,6 +9,9 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      backgroundImage: {
+        "hero-pattern": "url('/public/images/background.jpg)",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

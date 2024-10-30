@@ -1,48 +1,10 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import TypingAnimation from "../utils/TypingText";
-import Image from "next/image";
 import { ChartNoAxesCombined } from "lucide-react";
-import { MouseEventHandler } from "react";
 import Link from "next/link";
+import Cover from "./Cover";
 
 export default function Intro() {
-  const xpcnt = useSpring(0, { bounce: 0 });
-  const ypcnt = useSpring(0, { bounce: 0 });
-  const scale = useSpring(1, { bounce: 0 });
-
-  const rotateX = useTransform(ypcnt, [-0.5, 0.5], ["-18deg", "18deg"]);
-  const rotateY = useTransform(xpcnt, [-0.5, 0.5], ["-18deg", "18deg"]);
-
-  const getMousePosition = (e: React.MouseEvent<Element, MouseEvent>) => {
-    const { width, height, left, top } =
-      e.currentTarget.getBoundingClientRect();
-    const currentMouseX = e.clientX - left;
-    const currentMouseY = e.clientY - top;
-    return {
-      currentMouseX,
-      currentMouseY,
-      containerWidth: width,
-      containerHeight: height,
-    };
-  };
-
-  const handleMouseEnter: MouseEventHandler = (e) => {
-    scale.set(2.07);
-  };
-
-  const handleMouseLeave: MouseEventHandler = (e) => {
-    xpcnt.set(0);
-    ypcnt.set(0);
-  };
-
-  const handleMouseEvent: MouseEventHandler = (e) => {
-    const { currentMouseX, currentMouseY, containerHeight, containerWidth } =
-      getMousePosition(e);
-
-    xpcnt.set(currentMouseX / containerWidth - 0.5);
-    ypcnt.set(currentMouseY / containerHeight - 0.5);
-  };
-
   return (
     <div className="relative flex flex-col md:flex-row  justify-center items-center bg-blend-saturation h-full">
       <div className="h-full gap-6 w-1/2 flex flex-col justify-center items-center">
@@ -81,26 +43,7 @@ export default function Intro() {
       </div>
       <h1 className="w-0.5 h-full" />
       <div className="h-full w-1/2 flex justify-center bg-gray-100 dark:bg-transparent">
-        <motion.div
-          onMouseMove={handleMouseEvent}
-          onMouseEnter={handleMouseEnter}
-          whileHover={{ scale: 1.04 }}
-          onMouseLeave={handleMouseLeave}
-          style={{
-            rotateX,
-            rotateY,
-            transformStyle: "preserve-3d",
-          }}
-          className="m-4 h-4/5 w-3/5 top-10 flex relative rounded-lg "
-        >
-          <Image
-            src={"/images/resume.png"}
-            alt="resume"
-            width="500"
-            height="40"
-            className="p-6 rounded-lg bg-white "
-          ></Image>
-        </motion.div>
+        <Cover />
         <div className="w-1/12 h-1/5 flex flex-col items-center p-2 shadow-md bg-white rounded-lg  absolute top-80 right-96 mr-40">
           <div className="font-bold justify-center text-black">200K+</div>
           <ChartNoAxesCombined className="w-full h-full text-blue-500" />
