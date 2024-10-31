@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Link } from "lucide-react";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -37,9 +37,12 @@ export default function Header() {
           </h6>
         </div>
         <div className="flex font-bold group hover:cursor-pointer md:visible invisible text-center items-center">
-          <h6 className="font-mono group-hover:bg-black p-1 rounded-lg text-blue-500">
+          <a
+            href="signin"
+            className="font-mono group-hover:bg-black p-1 rounded-lg text-blue-500"
+          >
             Login
-          </h6>
+          </a>
         </div>
         <div className="flex items-center gap-2">
           <Sun className="text-blue-500 dark:text-black" />
