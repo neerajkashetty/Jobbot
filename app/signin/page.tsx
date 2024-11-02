@@ -3,6 +3,7 @@ import Cover from "../../components/Cover";
 import { useRouter } from "next/navigation";
 import { ChangeEventHandler, useState } from "react";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 
 export default function Signin() {
   const [username, setUsername] = useState("");
@@ -28,7 +29,7 @@ export default function Signin() {
         <Cover />
       </div>
       <div className="h-full w-1/2 flex items-center justify-center ">
-        <div className="flex flex-col items-center w-2/3 h-2/3 bg-white/10 justify-start ">
+        <div className="flex flex-col  items-center w-2/3 h-2/3 bg-white/10 justify-start ">
           <h1 className="p-2 text-3xl font-bold text-blue-500"> SignIn </h1>
           <div className="flex flex-col ">
             <LabelledInput
@@ -55,6 +56,15 @@ export default function Signin() {
                 forgot Password?
               </a>
             </div>
+          </div>
+          <div className="relative top-14 bg-blue-200 p-3">
+            {" "}
+            <button
+              onClick={() => signIn("google")}
+              className="font-bold text-blue-600 "
+            >
+              Sign in with google
+            </button>
           </div>
         </div>
       </div>
