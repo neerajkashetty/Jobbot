@@ -12,62 +12,50 @@ export default function Signin() {
   const router = useRouter();
 
   return (
-    <div className="h-screen w-full flex flex-row-reverse bg-[url('/images/background.jpg')]">
-      <div className="w-1/2 flex justify-center ">
+    <div className="h-screen w-full md:flex md:flex-row-reverse items-center justify-center bg-[url('/images/background.jpg')]">
+      <div className="md:w-1/2 md:flex justify-center absolute md:relative invisible md:visible ">
         <Cover />
       </div>
-      <div className="h-full w-1/2 flex items-center justify-center ">
-        <div className="flex flex-col rounded-2xl  items-center w-2/3 h-2/3 bg-white/10 justify-start ">
+      <div className="h-full w-full md:w-1/2 flex items-center justify-center  ">
+        <div className="flex flex-col rounded-2xl  items-center w-2/3 h-2/3 lg:h-1/2 bg-white/10 justify-start ">
           <h1 className="p-2 text-3xl font-bold text-blue-500">
             {" "}
             Welcome to Custom Resume
           </h1>
-          <div className="flex flex-col w-1/2 ">
-            <LabelledInput
-              label="Username"
-              placeholder="username"
-              type="string"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <LabelledInput
-              label="Password"
-              placeholder="password"
-              type="1234"
-              eye
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col gap-4 top-8 relative w-1/2">
-            <button
-              onClick={async () => {
-                const res = await signIn("credentials", {
-                  username,
-                  password,
-                  redirect: false,
-                  callbackUrl: "/",
-                });
-                console.log(res, "sajdh");
-
-                if (res?.status === 200) {
-                  router.push("/");
-                }
-              }}
-              className="bg-blue-200 rounded-md p-2 font-bold text-blue-800"
-            >
-              Login
-            </button>
-            <span className="h-0.5 flex justify-center   w-full">
-              ---------------------
-            </span>
-          </div>
-          <div className="relative top-14 bg-blue-200 p-3">
-            {" "}
-            <button
-              onClick={() => signIn("google")}
-              className="font-bold text-blue-600 "
-            >
-              Sign in with google
-            </button>
+          <div className="flex flex-col w-full h-full gap-8 justify-center items-center p-4 ">
+            <div className="flex flex-col w-1/2  justify-center relative  ">
+              <LabelledInput
+                label="Username"
+                placeholder="username"
+                type="string"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <LabelledInput
+                label="Password"
+                placeholder="password"
+                type="1234"
+                eye
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col relative w-1/2">
+              <button
+                onClick={async () => {
+                  const res = await signIn("credentials", {
+                    username,
+                    password,
+                    redirect: false,
+                    callbackUrl: "/",
+                  });
+                  if (res?.status === 200) {
+                    router.push("/resume");
+                  }
+                }}
+                className="bg-blue-200 rounded-md p-2 font-bold text-blue-800"
+              >
+                Login
+              </button>
+            </div>
           </div>
         </div>
       </div>
