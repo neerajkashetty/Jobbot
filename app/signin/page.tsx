@@ -44,7 +44,9 @@ export default function Signin() {
                   username,
                   password,
                   redirect: false,
+                  callbackUrl: "/",
                 });
+                console.log(res, "sajdh");
 
                 if (res?.status === 200) {
                   router.push("/");

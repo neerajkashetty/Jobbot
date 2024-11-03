@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
+import { signIn } from "next-auth/react";
 
 console.log(process.env.GOOGLE_CLIENTID);
 
@@ -10,6 +11,7 @@ const prisma = new PrismaClient();
 export const authOptions = {
   providers: [
     CredentialsProvider({
+      type: "credentials",
       name: "Email",
       credentials: {
         username: { label: "username", type: "text", placeholder: "username" },
@@ -24,8 +26,8 @@ export const authOptions = {
         });
 
         if (user) {
-          console.log(user);
-          return null;
+          console.log(user, "jhkj");
+          return credentials;
         }
 
         return null;
@@ -38,6 +40,13 @@ export const authOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async session({ session, token, user }: any) {
+      console.log("in session callback", user);
+      session.id = token.id;
+      return session;
+    },
+  },
   pages: {
     signIn: "/signin",
   },
