@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Sun, Moon, Link } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -10,6 +11,7 @@ export default function Header() {
     document.documentElement.classList.toggle("dark");
     setTheme(theme === "dark" ? "light" : "dark");
   };
+  const session = useSession();
   return (
     <div className=" h-1/12 w-full flex  justify-around relative ">
       <div className="flex flex-row w-1/2 justify-between">
