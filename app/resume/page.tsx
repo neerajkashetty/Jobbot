@@ -7,9 +7,8 @@ export default function Resume() {
   console.log(status);
   if (status === "authenticated") {
     return (
-      <div id="Resume" className="h-full flex flex-row">
+      <div id="Resume" className=" flex flex-row ">
         <SideBar />
-        <div className="h-screen w-px bg-gray-200 shadow-lg"></div>
       </div>
     );
   } else {
