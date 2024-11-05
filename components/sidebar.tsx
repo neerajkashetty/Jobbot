@@ -7,21 +7,20 @@ import {
   Settings,
 } from "lucide-react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 
 export const SideBar = () => {
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("");
   return (
     <motion.nav
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
       layout
       style={{
-        width: open ? "225px" : "fit-content",
+        width: open ? "280px" : "fit-content",
         transition: "width 0.3s ease",
       }}
-      className="h-screen flex flex-col gap-6 p-2 bg-white border-r border-slate-400 "
+      className="h-screen flex flex-col gap-6 p-2 bg-white border-r border-slate-200"
     >
       <div className="flex flex-row justify-between font-bold p-2 ">
         {open && (
@@ -36,10 +35,34 @@ export const SideBar = () => {
           onClick={() => setOpen(!open)}
         />
       </div>
-      <Options Icon={House} title="Home" open={open} />
-      <Options Icon={StickyNote} title="Cover Letters" open={open} />
-      <Options Icon={NotebookPen} title="Resumes" open={open} />
-      <Options Icon={Star} title="Websites" open={open} />
+      <Options
+        Icon={House}
+        title="Home"
+        open={open}
+        selected={selected}
+        onSelect={setSelected}
+      />
+      <Options
+        Icon={StickyNote}
+        title="Cover Letters"
+        open={open}
+        selected={selected}
+        onSelect={setSelected}
+      />
+      <Options
+        Icon={NotebookPen}
+        title="Resumes"
+        open={open}
+        selected={selected}
+        onSelect={setSelected}
+      />
+      <Options
+        Icon={Star}
+        title="Websites"
+        open={open}
+        selected={selected}
+        onSelect={setSelected}
+      />
       {open && (
         <div>
           <div className="invisible md:visible relative top-10 ml-4  w-4/5 rounded-t-lg items-center bg-pink-700/10 blur-xs flex gap-4 p-3 justify-center flex-col">
@@ -64,7 +87,13 @@ export const SideBar = () => {
           </div>
         </div>
       )}
-      <Options Icon={Settings} title="Settings" open={open} />
+      <Options
+        Icon={Settings}
+        title="Settings"
+        open={open}
+        selected={selected}
+        onSelect={setSelected}
+      />
     </motion.nav>
   );
 };
@@ -73,13 +102,18 @@ interface OptionProps {
   Icon: any;
   title: string;
   open?: any;
+  selected: string;
+  onSelect: (title: string) => void;
 }
 
-const Options = ({ Icon, title, open }: OptionProps) => {
+const Options = ({ Icon, title, open, selected, onSelect }: OptionProps) => {
   return (
     <motion.div
       layout
-      className="font-bold  justify-start flex group flex-row gap-4 cursor pointer p-2  rounded-md text-gray-600 hover:bg-gray-200 cursor-pointer"
+      onClick={() => onSelect(title)}
+      className={`font-bold ${
+        selected === title ? "bg-gray-200" : ""
+      }  justify-start flex group flex-row gap-4 cursor pointer p-2  rounded-md text-gray-600 hover:bg-gray-200 cursor-pointer`}
     >
       <Icon />
       {open && <motion.div layout>{title}</motion.div>}
