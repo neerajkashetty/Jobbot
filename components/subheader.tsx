@@ -1,8 +1,14 @@
 import { House, NotebookPen, Search } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Subheader = () => {
   return (
-    <div className="flex flex-row justify-between w-full h-1/6 border-b border-gray-200 p-4">
+    <motion.div
+      layout
+      animate={{ opacity: 1, scale: 1 }}
+      style={{ transition: "width 0.3s ease" }}
+      className="flex flex-row justify-between w-full h-1/6 border-b border-gray-200 p-4"
+    >
       <div className="flex flex-row font-semibold">
         <RenderIcons props={props} />
       </div>
@@ -18,7 +24,7 @@ export const Subheader = () => {
           + New
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

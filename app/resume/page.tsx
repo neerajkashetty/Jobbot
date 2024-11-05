@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import { SideBar } from "../../components/sidebar";
 import { Subheader } from "../../components/subheader";
+import { GenerateResume } from "../../components/generateResume";
 
 export default function Resume() {
   const { data: session, status } = useSession();
@@ -10,7 +11,10 @@ export default function Resume() {
     return (
       <div id="Resume" className=" flex flex-row  w-full">
         <SideBar />
-        <Subheader />
+        <div className="w-full h-full">
+          <Subheader />
+          <GenerateResume />
+        </div>
       </div>
     );
   } else {
