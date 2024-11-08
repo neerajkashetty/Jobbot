@@ -11,7 +11,7 @@ export function GenerateResume() {
   ];
 
   return (
-    <div className="h-full  flex md:flex-row  flex-col ">
+    <div className=" flex md:flex-row  flex-col ">
       <div className="w-full md:w-1/2  border flex flex-col justify-between ">
         <div className="w-full justify-between  border flex ">
           <div className="flex p-2 gap-2 ">
@@ -34,7 +34,7 @@ export function GenerateResume() {
             </span>
           </div>
         </div>
-        <div className="h-full flex flex-col gap-8 p-2 border overflow-y-scroll">
+        <div className="h-full flex flex-col gap-8 p-2 border">
           <div>
             <h1 className="font-bold text-xl text-center">
               Generate Your Resume{" "}
@@ -87,7 +87,7 @@ export function GenerateResume() {
         </div>
       </div>
       <div className="w-1/2 h-full">
-        <div className="flex text-md border h-1/2 justify-between w-full p-3  items-end ">
+        <div className="flex text-md border h-1/12 justify-between w-full p-3  items-end ">
           <span className="cursor-pointer hover:border-b p-2  font-bold ">
             Preview
           </span>

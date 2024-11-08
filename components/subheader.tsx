@@ -1,5 +1,6 @@
 import { House, NotebookPen, Search } from "lucide-react";
 import { motion } from "framer-motion";
+import { Theme } from "./Header";
 
 export const Subheader = () => {
   return (
@@ -7,12 +8,13 @@ export const Subheader = () => {
       layout
       animate={{ opacity: 1, scale: 1 }}
       style={{ transition: "width 0.3s ease" }}
-      className="flex flex-row justify-between w-full h-1/6 border-b border-gray-200 p-4"
+      className="flex flex-row  justify-between w-full h-1/12 border-b border-gray-200 p-4"
     >
       <div className="flex flex-row font-semibold">
         <RenderIcons props={props} />
       </div>
-      <div className="flex flex-row gap-2 w-1/2 h-full justify-end focus:ring-black">
+      <div className="flex flex-row gap-4 w-1/2 h-full justify-end focus:ring-black">
+        <Theme />
         <div className="w-3/4 md:w-2/5 bg-slate-100 p-2 flex flex-row justify-between rounded-lg">
           <input
             placeholder="Search"
