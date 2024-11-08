@@ -8,7 +8,7 @@ export const Subheader = () => {
       layout
       animate={{ opacity: 1, scale: 1 }}
       style={{ transition: "width 0.3s ease" }}
-      className="flex flex-row  justify-between w-full h-1/12 border-b border-gray-200 p-4"
+      className="flex flex-row  justify-between w-full h-1/3 border-b border-gray-200 p-2"
     >
       <div className="flex flex-row font-semibold">
         <RenderIcons props={props} />

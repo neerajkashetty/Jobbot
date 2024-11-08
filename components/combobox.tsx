@@ -68,7 +68,7 @@ export default function Example({ people }: { people: PeopleProps[] }) {
           <ComboboxOption
             key={person.id}
             value={person}
-            className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-white/10"
+            className="group flex  cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-white/10"
           >
             <CheckIcon className="invisible size-4 fill-black ata-[focus]:bg-blue-100" />
             <div className="text-sm/6 text-gray-400">
