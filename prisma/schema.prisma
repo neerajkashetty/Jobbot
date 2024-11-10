@@ -19,3 +19,12 @@ model User {
   username String @unique
   password String?
 }
+
+model JobInformation {
+  id Int @id @default(autoincrement())
+  jobtitle String 
+  Skills String
+  Firstname String
+  Lastname String
+}
+
