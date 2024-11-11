@@ -10,7 +10,6 @@ export async function JobInformation(
   Lastname: string
 ) {
   try {
-    console.log(jobtitle);
     await client.jobInformation.create({
       data: {
         jobtitle,
