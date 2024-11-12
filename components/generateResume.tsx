@@ -3,12 +3,47 @@ import Example from "./combobox";
 import { people, output } from "../utils/data";
 import { JobInformation } from "../app/actions/jobinfo";
 import { useState } from "react";
+import { resume, ResumeParams } from "../app/actions/ai";
 
 export function GenerateResume() {
   const [jobtitle, setJobTitle] = useState<any>("");
-  const [skills, setSkills] = useState<string>("");
+  const [jobdescription, setJobDescription] = useState<any>("");
+  const [skills, setSkills] = useState<string[]>([]);
   const [FirstName, setFirstName] = useState<string>("");
   const [LastName, setLastName] = useState<string>("");
+  const [resumedata, setResumeData] = useState<any>();
+
+  const Generate = async () => {
+    const resumeParams: ResumeParams = {
+      jobtitle,
+      skills: ["React", "Node", "typescript"],
+      Firstname: FirstName,
+      Lastname: LastName,
+      experience: [
+        "5 years of experience in the software design and development",
+      ],
+      jobdescription,
+    };
+
+    const resumeData = await resume(resumeParams);
+    const final = resumeData[0].message.content ?? "";
+    try {
+      // Try parsing the string into a JavaScript object
+      const parsedData = JSON.parse(final);
+
+      // Set the parsed data to state
+      setResumeData(parsedData);
+
+      // Log parsed data to console (for debugging purposes)
+      console.log(parsedData);
+    } catch (error) {
+      // Handle the case where JSON parsing fails
+      console.error("Failed to parse the resume data:", error);
+    }
+
+    // Handle the response (e.g., show generated resume)
+    console.log(resumedata);
+  };
 
   return (
     <div className=" flex md:flex-row  h-screen flex-col ">
@@ -42,14 +77,24 @@ export function GenerateResume() {
             {/* need to give another ai component as its there on the wireframe */}
           </div>
           <h1 className="font-bold">Content</h1>
-          <p>Paste the job description below</p>
-          <textarea
-            placeholder="Job Description Here please"
-            className="w-full h-[20rem] bg-gray-200/40 p-2 rounded-lg"
-            onChange={(e) => {
-              setJobTitle(e.target.value);
-            }}
-          ></textarea>
+          <div>
+            <p className="font-bold ">Job Title</p>
+            <input
+              className="p-2 rounded-lg bg-gray-100"
+              placeholder="Job title"
+              onChange={(e) => setJobTitle(e.target.value)}
+            ></input>
+          </div>
+          <div>
+            <p>Paste the job description below</p>
+            <textarea
+              placeholder="Job Description Here please"
+              className="w-full h-full bg-gray-200/40 p-2 rounded-lg"
+              onChange={(e) => {
+                setJobDescription(e.target.value);
+              }}
+            ></textarea>
+          </div>
           <div className="flex flex-col gap-2 p-2">
             <h1 className="text-sm font-medium">
               Which skills should be focused?
@@ -90,9 +135,7 @@ export function GenerateResume() {
           </div>
           <div className="w-full flex  justify-center items-center">
             <button
-              onClick={() =>
-                JobInformation(jobtitle, "React", FirstName, LastName)
-              }
+              onClick={() => Generate()}
               className="bg-blue-400 p-2 rounded-lg font-semibold"
             >
               Create Content

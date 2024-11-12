@@ -1,6 +1,7 @@
 import { House, NotebookPen, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { Theme } from "./Header";
+import { resume } from "../app/actions/ai";
 
 export const Subheader = () => {
   return (
