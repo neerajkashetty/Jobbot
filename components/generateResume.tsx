@@ -49,7 +49,7 @@ export function GenerateResume() {
   return (
     <div className=" flex md:flex-row  h-screen flex-col ">
       <div className="w-full md:w-1/2 h-full flex flex-col justify-between ">
-        <div className="w-full justify-between h-full flex ">
+        <div className="w-full justify-between h-1/12 flex ">
           <div className="flex p-2 gap-2 ">
             <span className="p-2 bg-gray-200/10 shadow-md rounded-lg cursor-pointer border">
               <ArrowLeft />
@@ -148,7 +148,7 @@ export function GenerateResume() {
         resumedata={resumedata}
         Firstname={FirstName}
         Lastname={LastName}
-        Email="nefjnw@gmail.com"
+        Email=""
       />
     </div>
   );
