@@ -28,3 +28,12 @@ model JobInformation {
   Lastname String
 }
 
+model PersonalDetails {
+  id Int @id @default(autoincrement())
+  firstname String
+  Lastname String
+  location String
+  phone Int
+  linkedin String @unique
+  github String 
+}

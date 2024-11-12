@@ -6,7 +6,7 @@ import { GenerateResume } from "../../components/generateResume";
 
 export default function Resume() {
   const { data: session, status } = useSession();
-  console.log(status);
+  console.log({ session, status });
   if (status === "authenticated") {
     return (
       <div id="Resume" className=" flex flex-row  w-full">

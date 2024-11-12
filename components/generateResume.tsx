@@ -5,6 +5,7 @@ import { JobInformation } from "../app/actions/jobinfo";
 import { useState } from "react";
 import { resume, ResumeParams } from "../app/actions/ai";
 import { Preview } from "./preview";
+import { Dialog } from "./Dialog";
 
 export function GenerateResume() {
   const [jobtitle, setJobTitle] = useState<any>("");
@@ -29,20 +30,14 @@ export function GenerateResume() {
     const resumeData = await resume(resumeParams);
     const final = resumeData[0].message.content ?? "";
     try {
-      // Try parsing the string into a JavaScript object
       const parsedData = JSON.parse(final);
 
-      // Set the parsed data to state
       setResumeData(parsedData);
 
-      // Log parsed data to console (for debugging purposes)
       console.log(parsedData);
     } catch (error) {
-      // Handle the case where JSON parsing fails
       console.error("Failed to parse the resume data:", error);
     }
-
-    // Handle the response (e.g., show generated resume)
     console.log(resumedata);
   };
 
@@ -150,6 +145,7 @@ export function GenerateResume() {
         Lastname={LastName}
         Email=""
       />
+      <Dialog />
     </div>
   );
 }

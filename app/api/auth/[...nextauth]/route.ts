@@ -27,9 +27,12 @@ export const authOptions = {
 
         if (user) {
           console.log(user, "jhkj");
-          return credentials;
+          return {
+            id: user.username,
+            name: user.username,
+          };
         }
-
+        console.log(user, "afdasfa");
         return null;
       },
     }),
