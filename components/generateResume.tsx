@@ -4,6 +4,7 @@ import { people, output } from "../utils/data";
 import { JobInformation } from "../app/actions/jobinfo";
 import { useState } from "react";
 import { resume, ResumeParams } from "../app/actions/ai";
+import { Preview } from "./preview";
 
 export function GenerateResume() {
   const [jobtitle, setJobTitle] = useState<any>("");
@@ -143,14 +144,12 @@ export function GenerateResume() {
           </div>
         </div>
       </div>
-      <div className="w-1/2 h-full">
-        <div className="flex text-md border h-1/12 justify-between w-full p-2.5  items-end ">
-          <span className="cursor-pointer hover:border-b p-2  font-bold ">
-            Preview
-          </span>
-        </div>
-        <div className="bg-gray-100 h-5/6 items-center m-6 rounded-lg "></div>
-      </div>
+      <Preview
+        resumedata={resumedata}
+        Firstname={FirstName}
+        Lastname={LastName}
+        Email="nefjnw@gmail.com"
+      />
     </div>
   );
 }

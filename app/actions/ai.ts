@@ -19,15 +19,57 @@ export async function resume(resumeParams: ResumeParams) {
   const advancedprompt = `Generate a professional resume for the following job application . Use the provided job description, highlighted skills, and any relevant soft skills to create an impressive and customized resume.
                           Structure of the resume in JSON OBJECT where the keys should be like 
                          {
-                          Summary: "",
-                          Education: "" if more than one {
-                          "",""
-                          }
-                          Experience: {
-                          "", ""
-                          }
-                          etc...
-                          }
+  "Summary": "A brief professional summary highlighting key skills and experience.",
+  "Education": [
+    {
+      "Degree": "Bachelor of Science in Computer Science",
+      "Institution": "University Name",
+      "Year": "2020 - 2024",
+      "GPA": "3.8"
+    }
+  ],
+  "Experience": [
+    {
+      "Job Title": "Senior Database Administrator",
+      "Company": "ABC Corporation",
+      "Duration": "2018 - Present",
+      "Description": "Designed, developed, and implemented database solutions using Microsoft Dynamics, SQL Server, and ASP.NET. Configured and customized applications, including forms, charts, and dashboards. Collaborated with cross-functional teams to deliver high-quality solutions.",
+      "Skills": ["Microsoft Dynamics", "SQL Server", "ASP.NET", "C#", "Azure DevOps", "Visual Studio"]
+    },
+    {
+      "Job Title": "Database Administrator",
+      "Company": "PQR Corporation",
+      "Duration": "2015 - 2018",
+      "Description": "Implemented and maintained database solutions using Microsoft Dynamics and SQL Server. Developed and deployed custom plugins and business rules. Utilized Azure DevOps and Visual Studio for development and deployment.",
+      "Skills": ["Microsoft Dynamics", "SQL Server", "Azure DevOps", "Visual Studio"]
+    }
+  ],
+  "Projects": [
+    {
+      "Project Title": "E-commerce Web Application",
+      "Description": "Developed a full-stack e-commerce application using React, Node.js, and MongoDB. Integrated payment gateway and designed user-friendly interfaces.",
+      "Technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe API"]
+    }
+  ],
+  "Certifications": [
+    {
+      "Name": "AWS Certified Solutions Architect",
+      "Issuing Organization": "Amazon Web Services",
+      "Year": "2022"
+    },
+    {
+      "Name": "Microsoft Certified: Azure Administrator",
+      "Issuing Organization": "Microsoft",
+      "Year": "2021"
+    }
+  ],
+  "Skills": [
+    "Microsoft Dynamics",
+    "SQL Server",
+  
+  ]
+}
+
 
                           Here are the key details:
                           Job Title: ${resumeParams.jobtitle}
