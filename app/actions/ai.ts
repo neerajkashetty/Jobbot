@@ -1,5 +1,7 @@
 "use server";
 import Groq from "groq-sdk";
+import { checkdb } from "./personaldetails";
+import { getServerSession } from "next-auth";
 
 const client = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -16,32 +18,64 @@ export interface ResumeParams {
 }
 
 export async function resume(resumeParams: ResumeParams) {
-  const advancedprompt = `Generate a professional resume for the following job application . Use the provided job description, highlighted skills, and any relevant soft skills to create an impressive and customized resume.
-                          Structure of the resume in JSON OBJECT where the keys should be like 
-                         {
-  "Summary": "A brief professional summary highlighting key skills and experience.",
+  const session = await getServerSession();
+  const username = session?.user?.name ?? "";
+
+  const data = await checkdb(username);
+
+  console.log(session?.user?.name);
+
+  const Education = JSON.stringify(data.eduction);
+  const PersonalDetails = data.user;
+  const Experience = JSON.stringify(data.experience);
+
+  console.log(Experience);
+
+  const advancedPrompt = `
+You are a helpful resume generator that creates a professional resume in JSON format. Based on the provided input, structure the resume into sections such as Summary, Education, Experience, Skills, Certifications, and Personal Details. The format should be clean, organized, and well-structured. Below are the details provided:
+
+Job Title: ${resumeParams.jobtitle}
+Job Description: ${resumeParams.jobdescription}
+Relevant Skills: ${resumeParams.skills.join(", ")}
+Experience: ${resumeParams.experience.join(", ")}
+
+Here is the personal and education information:
+- Personal Details: 
+  - Name: ${resumeParams.Firstname} ${resumeParams.Lastname}
+  - Location: ${data.user?.location}
+  - LinkedIn: ${data.user?.linkedin}
+  - GitHub: ${data.user?.github}
+  - Phone: ${data.user?.phone}
+  
+- Education: 
+  - Degree: ${Education}
+
+- Professional Experience:
+  - ${Experience}
+
+
+**Important Instruction:**
+1. For **previous work experience**, please keep the **company name** and **period** (duration) unchanged. Only modify the **description** of the job role to align with the **new job description** provided above. The description should reflect the responsibilities and skills needed for the new job title, while still being true to the nature of the role the candidate performed.
+2. For each **job description**, ensure it highlights relevant **skills** and **achievements** that would make the candidate a great fit for the job they are applying for, while still reflecting the core responsibilities they performed in the previous role.
+
+
+Format the resume as a JSON object with the following structure:
+{
+  "Summary": "A brief professional summary highlighting the key skills and experience based on the job description and the candidate's background.",
   "Education": [
     {
-      "Degree": "Bachelor of Science in Computer Science",
-      "Institution": "University Name",
-      "Year": "2020 - 2024",
-      "GPA": "3.8"
+      "Degree": "Bachelor's in Computer Science",
+      "University": "XYZ University",
+      "Year": "2022",
+      "CGPA": 3.8
     }
   ],
   "Experience": [
     {
-      "Job Title": "Senior Database Administrator",
-      "Company": "ABC Corporation",
-      "Duration": "2018 - Present",
-      "Description": "Designed, developed, and implemented database solutions using Microsoft Dynamics, SQL Server, and ASP.NET. Configured and customized applications, including forms, charts, and dashboards. Collaborated with cross-functional teams to deliver high-quality solutions.",
-      "Skills": ["Microsoft Dynamics", "SQL Server", "ASP.NET", "C#", "Azure DevOps", "Visual Studio"]
-    },
-    {
-      "Job Title": "Database Administrator",
-      "Company": "PQR Corporation",
-      "Duration": "2015 - 2018",
-      "Description": "Implemented and maintained database solutions using Microsoft Dynamics and SQL Server. Developed and deployed custom plugins and business rules. Utilized Azure DevOps and Visual Studio for development and deployment.",
-      "Skills": ["Microsoft Dynamics", "SQL Server", "Azure DevOps", "Visual Studio"]
+      "Job Title": "Software Engineer",
+      "Company": "if company is specified in the above details put it or leave empty",
+      "Description": "Developed web applications using React and Node.js, collaborated with cross-functional teams to deliver scalable solutions.",
+      "Period": "2021-2023"
     }
   ],
   "Projects": [
@@ -56,40 +90,20 @@ export async function resume(resumeParams: ResumeParams) {
       "Name": "AWS Certified Solutions Architect",
       "Issuing Organization": "Amazon Web Services",
       "Year": "2022"
-    },
-    {
-      "Name": "Microsoft Certified: Azure Administrator",
-      "Issuing Organization": "Microsoft",
-      "Year": "2021"
     }
   ],
   "Skills": [
-    "Microsoft Dynamics",
-    "SQL Server",
-  
+    "JavaScript", "React", "Node.js", "MongoDB", "Git", "AWS", "Communication", "Teamwork"
   ]
 }
 
+Be sure to:
+1. Provide a professional summary that emphasizes key strengths and skills.
+2. Ensure each section is clear and well-structured.
+3. For experience and education, use the most relevant details to match the job title and description.
+4. Include soft skills such as communication, leadership, adaptability in the skills section.
 
-                          Here are the key details:
-                          Job Title: ${resumeParams.jobtitle}
-                          Experience: ${resumeParams.experience}
-                          Job Description: ${resumeParams.jobdescription}
-                          Relevant Skills: ${
-                            resumeParams.skills
-                          } [List specific skills relevant to the job, e.g., JavaScript, leadership, critical thinking]
-                          Soft Skills: [List soft skills like communication, teamwork, adaptability]
-                          Certifications (optional): ${
-                            resumeParams.experience
-                              ? resumeParams.experience
-                              : "List certifications, if any, e.g., AWS Certified, PMP, etc."
-                          }
-                          Name: ${resumeParams.Firstname} ${
-    resumeParams.Lastname
-  }
-
-                          Focus on making the candidate’s profile match the job description. If certain certifications or skills aren’t explicitly listed, feel free to add plausible skills or achievements to make the candidate’s profile stronger for this role. Highlight each section, especially areas where the candidate's skills align closely with the job requirements.
-                          Organize the resume in a clear format, including sections for Summary, Skills, Professional Experience, Education, Certifications, and any relevant accomplishments or projects.`;
+If certain certifications or skills aren’t explicitly listed, feel free to add plausible skills or achievements that would strengthen the candidate's profile for this role. Aim to make the resume stand out in a competitive job market.`;
 
   const chat = await client.chat.completions.create({
     temperature: 0.5,
@@ -102,7 +116,7 @@ export async function resume(resumeParams: ResumeParams) {
       },
       {
         role: "user",
-        content: advancedprompt,
+        content: advancedPrompt,
       },
     ],
     model: "llama3-8b-8192",

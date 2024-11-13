@@ -18,6 +18,8 @@ model User {
   id Int @id @default(autoincrement())
   username String @unique
   password String?
+  education Education[]
+  experience Experience[]
 }
 
 model JobInformation {
@@ -36,4 +38,24 @@ model PersonalDetails {
   phone Int
   linkedin String @unique
   github String 
+}
+
+
+model Education {
+  id Int @id @default(autoincrement())
+  user User @relation(fields:[username], references: [username])
+  username String
+  Degree String
+  University String
+  CGPA Int
+}
+
+model Experience{
+  id Int @id @default(autoincrement())
+  user User @relation(fields:[username], references:[username])
+  username String
+  title String
+  company String
+  description String 
+  Period Int
 }
