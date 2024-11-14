@@ -12,7 +12,7 @@ import z from "zod";
 export function Dialog() {
   const { data: session } = useSession();
   const username = session?.user?.name ?? "";
-  const [valid, setValid] = useState<boolean | undefined>(undefined);
+  const [valid, setValid] = useState<boolean | undefined>(true);
   const [experience, setExperience] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(true);
   const [firstname, setFirstname] = useState("");
@@ -90,8 +90,9 @@ export function Dialog() {
     const verifyUser = async () => {
       try {
         const isValid = await checkdb(username);
+        console.log(isValid);
         setValid(isValid?.success);
-        setOpen(true);
+        // setOpen(true);
       } catch (error) {
         console.error("Error checking the database:", error);
         setValid(false);
@@ -105,8 +106,8 @@ export function Dialog() {
 
   return (
     <>
-      <AnimatePresence>
-        {valid && open && (
+      {!valid && open && (
+        <AnimatePresence>
           <div className="absolute inset-0 h-screen flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
@@ -364,8 +365,8 @@ export function Dialog() {
               )}
             </motion.div>
           </div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>
+      )}
     </>
   );
 }

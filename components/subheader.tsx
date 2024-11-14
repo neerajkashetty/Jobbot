@@ -24,7 +24,7 @@ export const Subheader = () => {
           <Search className="text-gray-500" />
         </div>
         <button className="w-1/3 bg-black text-white rounded-lg font-bold">
-          + New
+          + Upload
         </button>
       </div>
     </motion.div>
