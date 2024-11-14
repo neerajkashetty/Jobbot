@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { SideBar } from "../../components/sidebar";
 import { Subheader } from "../../components/subheader";
 import { GenerateResume } from "../../components/generateResume";
+import Loading from "../loading";
 
 export default function Resume() {
   const { data: session, status } = useSession();
@@ -18,6 +19,10 @@ export default function Resume() {
       </div>
     );
   } else {
-    return <div>Fuck Off</div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 }
