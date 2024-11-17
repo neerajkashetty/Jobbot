@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
-import { signIn } from "next-auth/react";
 
 console.log(process.env.GOOGLE_CLIENTID);
 

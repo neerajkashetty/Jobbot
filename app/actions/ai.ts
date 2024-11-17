@@ -39,7 +39,14 @@ export async function resume(resumeParams: ResumeParams) {
   Relevant Skills: ${resumeParams.skills.join(", ")}
   Experience: ${resumeParams.experience.join(", ")}
   
-
+  Here is the personal and education information:
+  - Personal Details: 
+    - Name: ${resumeParams.Firstname} ${resumeParams.Lastname}
+    - Location: ${data.user?.location}
+    - LinkedIn: ${data.user?.linkedin}
+    - GitHub: ${data.user?.github}
+    - Phone: ${data.user?.phone}
+    
   - Education: 
     - Degree: ${Education}
   
@@ -48,9 +55,13 @@ export async function resume(resumeParams: ResumeParams) {
   
   **Important Instructions:**
   1. For **previous work experience**, include the **period** in the format: "Month Year to Month Year" (e.g., "Jul 2004 to Jan 2015"). If only the year is available, format it as "Year-Year" (e.g., "2004-2015").
-  2. Ensure that the **skills** listed in the final output are extracted only from the provided **job description**. Use exact keywords or phrases that appear in the job description.
+  2. Ensure that the **skills** section is categorized as follows:
+     - **Languages and Runtime Env:** List all programming languages, scripting languages, and runtime environments the candidate is proficient in (e.g., JavaScript, Python, Node.js, SQL, etc.).
+     - **Frameworks and Packages:** Include all libraries, frameworks, and packages (e.g., React, Next.js, Redux, Tailwind CSS, etc.).
+     - **Databases and Cloud:** List all database technologies and cloud platforms (e.g., MySQL, MongoDB, PostgreSQL, AWS S3, etc.).
+     - **Other Technologies:** Include tools, methodologies, or technologies not covered in the above categories (e.g., Git, Docker, CI/CD, Agile, etc.).
   3. Provide the **description** for each job as bullet points, with at least **5 key points**. Highlight specific responsibilities, achievements, and skills relevant to the new job description provided above. Use metrics or outcomes wherever applicable.
-  4. Ensure the **Skills** section lists only the keywords from the job description and excludes unrelated terms.
+  4. For the **Skills** section, ensure all items are extracted from the provided details, job description, and plausible technical proficiencies based on the candidate's profile.
   
   Format the resume as a JSON object with the following structure:
   {
@@ -77,13 +88,12 @@ export async function resume(resumeParams: ResumeParams) {
         "Period": "Jul 2004 to Jan 2015"
       }
     ],
-    "Projects": [
-      {
-        "Project Title": "E-commerce Web Application",
-        "Description": "Developed a full-stack e-commerce application using React, Node.js, and MongoDB. Integrated payment gateway and designed user-friendly interfaces.",
-        "Technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe API"]
-      }
-    ],
+    "Skills": {
+      "Languages and Runtime Env": ["JavaScript", "Python", "TypeScript", "PHP", "Node.js", "SQL", "GraphQL", "Shell Script"],
+      "Frameworks and Packages": ["React", "Next.js", "jQuery", "Apollo Client", "Express.js", "Redux Toolkit", "HTML", "Tailwind CSS", "Jest"],
+      "Databases and Cloud": ["MySQL", "MongoDB", "PostgreSQL", "Amazon Web Services (AWS S3, EC2, EB, Lambda)"],
+      "Other Technologies": ["Git", "Linux", "Docker", "CI/CD", "Agile", "OOP", "SDLC", "Postman"]
+    },
     "Certifications": [
       {
         "Name": "AWS Certified Solutions Architect",
@@ -91,8 +101,12 @@ export async function resume(resumeParams: ResumeParams) {
         "Year": "2022"
       }
     ],
-    "Skills": [
-      "List only skills or keywords from the job description."
+    "Projects": [
+      {
+        "Project Title": "E-commerce Web Application",
+        "Description": "Developed a full-stack e-commerce application using React, Node.js, and MongoDB. Integrated payment gateway and designed user-friendly interfaces.",
+        "Technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe API"]
+      }
     ]
   }
   
@@ -100,9 +114,7 @@ export async function resume(resumeParams: ResumeParams) {
   1. Provide a professional summary that emphasizes key strengths and skills.
   2. Ensure each section is clear and well-structured.
   3. For experience and education, use the most relevant details to match the job title and description.
-  4. If certain certifications or skills aren’t explicitly listed, add plausible achievements that align with the role.
-  
-  If required, generate plausible company names, project descriptions, or periods to make the resume appear complete. Ensure the format aligns with professional standards.
+  4. If required, generate plausible project details, company names, or periods to make the resume appear complete and competitive.
   `;
 
   const chat = await client.chat.completions.create({
