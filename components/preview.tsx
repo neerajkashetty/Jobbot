@@ -17,7 +17,7 @@ export const Preview = (props: Previewprops) => {
       <div className="bg-gray-100 h-full  m-6 rounded-lg flex flex-col ">
         <div className=" flex flex-col items-center justify-center">
           <h1 className="font-bold text-2xl">
-            {props?.Firstname ?? "NEERAJ"} {props?.Lastname ?? "Kasheety"}
+            {props?.resumedata?.PersonalDetails?.Name ?? "NEERAJ"}{" "}
           </h1>
           <div className="flex flex-row gap-4 underline justify-between">
             <a>Cincinnati, OH</a>
@@ -38,7 +38,7 @@ export const Preview = (props: Previewprops) => {
         </div>
         <div className="flex flex-col items-start  justify-start ">
           <h1 className="font-medium">Technical Skills</h1>
-          <p className="p-2 flex flex-row overflow-hidden">
+          <div className="p-2 flex flex-row overflow-hidden">
             {props.resumedata?.Skills && props.resumedata?.Skills.length > 0
               ? props.resumedata.Skills.map((skill: string, index: number) => (
                   <div key={index} className="flex flex-row ">
@@ -48,7 +48,7 @@ export const Preview = (props: Previewprops) => {
                   </div>
                 ))
               : "No Skills Available"}
-          </p>
+          </div>
         </div>
         <div className="flex flex-col items-start  justify-start ">
           <h1 className="font-medium">Professional Experience</h1>
@@ -58,22 +58,28 @@ export const Preview = (props: Previewprops) => {
               props.resumedata.Experience.length > 0 ? (
                 props.resumedata.Experience.map(
                   (experience: any, index: number) => (
-                    <div key={index} className="mb-4 p-2 border rounded-lg">
-                      <h2 className="font-semibold">
-                        {experience["Job Title"]}
-                      </h2>
-                      <p>
-                        <strong>Company:</strong> {experience.Company}
-                      </p>
-                      <p>
-                        <strong>Duration:</strong> {experience.Duration}
-                      </p>
-                      <p>
-                        <strong>Description:</strong> {experience.Description}
-                      </p>
-                      <p>
-                        <strong>Skills:</strong> {experience.Skills}
-                      </p>
+                    <div
+                      key={index}
+                      className="mb-4 w-full p-2 border bg-red-200 rounded-lg"
+                    >
+                      <div className="flex flex-row justify-between">
+                        <h2 className="font-semibold">
+                          {experience["Job Title"]}
+                        </h2>
+                        <p className="font-serif">{experience.Period}</p>
+                      </div>
+
+                      <p>{experience.Company}</p>
+                      <div className="flex flex-col w-full">
+                        <strong>Description:</strong> <br></br>
+                        {experience.Description.map(
+                          (description: any, index: number) => (
+                            <div key={index} className="font-bold">
+                              {description}
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
                   )
                 )
@@ -83,7 +89,7 @@ export const Preview = (props: Previewprops) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-start  justify-start">
+        <div className="flex flex-col items-start p-2 justify-start">
           <h1 className="font-medium">Education</h1>
           <div className=" text-pretty tracking">
             <div>
@@ -91,19 +97,19 @@ export const Preview = (props: Previewprops) => {
               props.resumedata.Education.length > 0 ? (
                 props.resumedata.Education.map(
                   (education: any, index: number) => (
-                    <div key={index} className="mb-4 p-2 border rounded-lg">
+                    <div key={index} className="mb-4 p-2  rounded-lg">
                       <h2 className="font-semibold"></h2>
                       <p>
                         <strong>Degree:</strong> {education.Degree}
                       </p>
                       <p>
-                        <strong>Institution:</strong> {education.Institution}
+                        <strong>Institution:</strong> {education.University}
                       </p>
                       <p>
                         <strong>Year:</strong> {education.Year}
                       </p>
                       <p>
-                        <strong>GPA:</strong> {education.GPA}
+                        <strong>CGPA:</strong> {education.CGPA}
                       </p>
                     </div>
                   )

@@ -32,78 +32,78 @@ export async function resume(resumeParams: ResumeParams) {
   console.log(Experience);
 
   const advancedPrompt = `
-You are a helpful resume generator that creates a professional resume in JSON format. Based on the provided input, structure the resume into sections such as Summary, Education, Experience, Skills, Certifications, and Personal Details. The format should be clean, organized, and well-structured. Below are the details provided:
-
-Job Title: ${resumeParams.jobtitle}
-Job Description: ${resumeParams.jobdescription}
-Relevant Skills: ${resumeParams.skills.join(", ")}
-Experience: ${resumeParams.experience.join(", ")}
-
-Here is the personal and education information:
-- Personal Details: 
-  - Name: ${resumeParams.Firstname} ${resumeParams.Lastname}
-  - Location: ${data.user?.location}
-  - LinkedIn: ${data.user?.linkedin}
-  - GitHub: ${data.user?.github}
-  - Phone: ${data.user?.phone}
+  You are a helpful resume generator that creates a professional resume in JSON format. Based on the provided input, structure the resume into sections such as Summary, Education, Experience, Skills, Certifications, and Personal Details. The format should be clean, organized, and well-structured. Below are the details provided:
   
-- Education: 
-  - Degree: ${Education}
+  Job Title: ${resumeParams.jobtitle}
+  Job Description: ${resumeParams.jobdescription}
+  Relevant Skills: ${resumeParams.skills.join(", ")}
+  Experience: ${resumeParams.experience.join(", ")}
+  
 
-- Professional Experience:
-  - ${Experience}
-
-
-**Important Instruction:**
-1. For **previous work experience**, please keep the **company name** and **period** (duration) unchanged. Only modify the **description** of the job role to align with the **new job description** provided above. The description should reflect the responsibilities and skills needed for the new job title, while still being true to the nature of the role the candidate performed.
-2. For each **job description**, ensure it highlights relevant **skills** and **achievements** that would make the candidate a great fit for the job they are applying for, while still reflecting the core responsibilities they performed in the previous role.
-
-
-Format the resume as a JSON object with the following structure:
-{
-  "Summary": "A brief professional summary highlighting the key skills and experience based on the job description and the candidate's background.",
-  "Education": [
-    {
-      "Degree": "Bachelor's in Computer Science",
-      "University": "XYZ University",
-      "Year": "2022",
-      "CGPA": 3.8
-    }
-  ],
-  "Experience": [
-    {
-      "Job Title": "Software Engineer",
-      "Company": "if company is specified in the above details put it or leave empty",
-      "Description": "Developed web applications using React and Node.js, collaborated with cross-functional teams to deliver scalable solutions.",
-      "Period": "2021-2023"
-    }
-  ],
-  "Projects": [
-    {
-      "Project Title": "E-commerce Web Application",
-      "Description": "Developed a full-stack e-commerce application using React, Node.js, and MongoDB. Integrated payment gateway and designed user-friendly interfaces.",
-      "Technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe API"]
-    }
-  ],
-  "Certifications": [
-    {
-      "Name": "AWS Certified Solutions Architect",
-      "Issuing Organization": "Amazon Web Services",
-      "Year": "2022"
-    }
-  ],
-  "Skills": [
-    "JavaScript", "React", "Node.js", "MongoDB", "Git", "AWS", "Communication", "Teamwork"
-  ]
-}
-
-Be sure to:
-1. Provide a professional summary that emphasizes key strengths and skills.
-2. Ensure each section is clear and well-structured.
-3. For experience and education, use the most relevant details to match the job title and description.
-4. Include soft skills such as communication, leadership, adaptability in the skills section.
-
-If certain certifications or skills aren’t explicitly listed, feel free to add plausible skills or achievements that would strengthen the candidate's profile for this role. Aim to make the resume stand out in a competitive job market.`;
+  - Education: 
+    - Degree: ${Education}
+  
+  - Professional Experience:
+    - ${Experience}
+  
+  **Important Instructions:**
+  1. For **previous work experience**, include the **period** in the format: "Month Year to Month Year" (e.g., "Jul 2004 to Jan 2015"). If only the year is available, format it as "Year-Year" (e.g., "2004-2015").
+  2. Ensure that the **skills** listed in the final output are extracted only from the provided **job description**. Use exact keywords or phrases that appear in the job description.
+  3. Provide the **description** for each job as bullet points, with at least **5 key points**. Highlight specific responsibilities, achievements, and skills relevant to the new job description provided above. Use metrics or outcomes wherever applicable.
+  4. Ensure the **Skills** section lists only the keywords from the job description and excludes unrelated terms.
+  
+  Format the resume as a JSON object with the following structure:
+  {
+    "Summary": "A brief professional summary highlighting the key skills and experience based on the job description and the candidate's background.",
+    "Education": [
+      {
+        "Degree": "Bachelor's in Computer Science",
+        "University": "XYZ University",
+        "Year": "2022",
+        "CGPA": 3.8
+      }
+    ],
+    "Experience": [
+      {
+        "Job Title": "Software Engineer",
+        "Company": "if company is specified in the above details put it or leave empty",
+        "Description": [
+          "- Developed web applications using React and Node.js.",
+          "- Collaborated with cross-functional teams to deliver scalable solutions.",
+          "- Reduced downtime by 30% through code optimization.",
+          "- Implemented CI/CD pipelines, improving deployment efficiency by 40%.",
+          "- Mentored junior developers and conducted code reviews."
+        ],
+        "Period": "Jul 2004 to Jan 2015"
+      }
+    ],
+    "Projects": [
+      {
+        "Project Title": "E-commerce Web Application",
+        "Description": "Developed a full-stack e-commerce application using React, Node.js, and MongoDB. Integrated payment gateway and designed user-friendly interfaces.",
+        "Technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe API"]
+      }
+    ],
+    "Certifications": [
+      {
+        "Name": "AWS Certified Solutions Architect",
+        "Issuing Organization": "Amazon Web Services",
+        "Year": "2022"
+      }
+    ],
+    "Skills": [
+      "List only skills or keywords from the job description."
+    ]
+  }
+  
+  Be sure to:
+  1. Provide a professional summary that emphasizes key strengths and skills.
+  2. Ensure each section is clear and well-structured.
+  3. For experience and education, use the most relevant details to match the job title and description.
+  4. If certain certifications or skills aren’t explicitly listed, add plausible achievements that align with the role.
+  
+  If required, generate plausible company names, project descriptions, or periods to make the resume appear complete. Ensure the format aligns with professional standards.
+  `;
 
   const chat = await client.chat.completions.create({
     temperature: 0.5,
