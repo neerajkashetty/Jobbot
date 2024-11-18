@@ -91,10 +91,10 @@ export async function resume(resumeParams: ResumeParams) {
       }
     ],
     "Skills": {
-      "Languages and Runtime Env": ["JavaScript", "Python", "TypeScript", "PHP", "Node.js", "SQL", "GraphQL", "Shell Script"],
-      "Frameworks and Packages": ["React", "Next.js", "jQuery", "Apollo Client", "Express.js", "Redux Toolkit", "HTML", "Tailwind CSS", "Jest"],
+      "Programming Languages": ["JavaScript", "Python", "TypeScript", "PHP", "Node.js", "SQL", "GraphQL", "Shell Script"],
+      "Web Technologies": ["React", "Next.js", "jQuery", "Apollo Client", "Express.js", "Redux Toolkit", "HTML", "Tailwind CSS", "Jest"],
       "Databases and Cloud": ["MySQL", "MongoDB", "PostgreSQL", "Amazon Web Services (AWS S3, EC2, EB, Lambda)"],
-      "Other Technologies": ["Git", "Linux", "Docker", "CI/CD", "Agile", "OOP", "SDLC", "Postman"]
+      "Dev Tools & Core Competencies": ["Git", "Linux", "Docker", "CI/CD", "Agile", "OOP", "SDLC", "Postman"]
     },
     "Certifications": [
       {
@@ -115,8 +115,9 @@ export async function resume(resumeParams: ResumeParams) {
   Be sure to:
   1. Provide a professional summary that emphasizes key strengths and skills.
   2. Ensure each section is clear and well-structured.
-  3. For experience and education, use the most relevant details to match the job title and description.
-  4. If required, generate plausible project details, company names, or periods to make the resume appear complete and competitive.
+  3. Dynamically suggest missing skills based on the job description.
+  4. For experience and education, use the most relevant details to match the job title and description.
+  5. If required, generate plausible project details, company names, or periods to make the resume appear complete and competitive.
   `;
 
   const chat = await client.chat.completions.create({

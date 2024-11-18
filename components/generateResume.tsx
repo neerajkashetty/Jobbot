@@ -1,10 +1,11 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Example from "./combobox";
 import { people, output } from "../utils/data";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { resume, ResumeParams } from "../app/actions/ai";
 import { Preview } from "./preview";
 import { Dialog } from "./Dialog";
+import jsPDF from "jspdf";
 
 export function GenerateResume() {
   const [jobtitle, setJobTitle] = useState<any>("");
@@ -13,6 +14,23 @@ export function GenerateResume() {
   const [FirstName, setFirstName] = useState<string>("");
   const [LastName, setLastName] = useState<string>("");
   const [resumedata, setResumeData] = useState<any>();
+  const pdfRef = useRef<any>();
+
+  const hanldeGenerate = () => {
+    const doc = new jsPDF({
+      orientation: "landscape",
+      format: "a4",
+      unit: "px",
+    });
+
+    doc.setFont("Inter-Regular", "normal");
+
+    doc.html(pdfRef.current, {
+      async callback(doc) {
+        await doc.save("document");
+      },
+    });
+  };
 
   const Generate = async () => {
     const resumeParams: ResumeParams = {
@@ -139,10 +157,12 @@ export function GenerateResume() {
         </div>
       </div>
       <Preview
+        ref={pdfRef}
         resumedata={resumedata}
         Firstname={FirstName}
         Lastname={LastName}
         Email=""
+        generate={hanldeGenerate}
       />
       <Dialog />
     </div>

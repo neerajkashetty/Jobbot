@@ -3,22 +3,27 @@ interface Previewprops {
   Firstname: string;
   Lastname: string;
   Email: string;
+  ref: any;
+  generate: any;
 }
 
 export const Preview = (props: Previewprops) => {
   const technicalSkills = props?.resumedata?.Skills ?? {};
 
   return (
-    <div className="w-1/2 h-full">
+    <div className="w-1/2 h-full " ref={props.ref}>
       <div className="flex text-md border h-1/12 justify-between items-center w-full p-2.5 ">
         <span className="cursor-pointer hover:border-b p-2 font-bold">
           Preview
         </span>
-        <button className="font-bold p-2 bg-blue-300 text-blue-900 rounded-lg ">
+        <button
+          onClick={() => props.generate()}
+          className="font-bold p-2 bg-blue-300 text-blue-900 rounded-lg "
+        >
           Download
         </button>
       </div>
-      <div className="bg-gray-100 h-full m-2 rounded-lg flex flex-col">
+      <div className="bg-gray-100/25 h-full m-2 rounded-lg flex flex-col">
         <div className="flex flex-col items-center justify-center">
           <h1 className="font-bold text-2xl">
             {props?.resumedata?.PersonalDetails?.Name ?? "NEERAJ"}
@@ -41,11 +46,14 @@ export const Preview = (props: Previewprops) => {
 
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Summary</h1>
+          <hr className="w-full h-0.5 bg-black"></hr>
           <p>{props.resumedata?.Summary ?? "No summary available."}</p>
         </div>
 
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Technical Skills</h1>
+          <hr className="w-full h-0.5 bg-black"></hr>
+
           <div className="p-2 flex flex-col gap-1">
             {Object.keys(technicalSkills).length > 0 ? (
               Object.entries(technicalSkills).map(
@@ -73,23 +81,24 @@ export const Preview = (props: Previewprops) => {
 
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Professional Experience</h1>
-          <div className="text-pretty tracking">
+          <hr className="w-full h-0.5 bg-black"></hr>
+          <div className="text-pretty w-full tracking ">
             {props.resumedata?.Experience?.length > 0 ? (
               props.resumedata.Experience.map(
                 (experience: any, index: number) => (
-                  <div
-                    key={index}
-                    className="mb-4 w-full p-4 border bg-red-200 rounded-lg"
-                  >
+                  <div key={index} className="p-2 rounded-lg">
                     <div className="flex flex-row justify-between">
                       <h2 className="font-semibold">
                         {experience["Job Title"]}
                       </h2>
                       <p className="font-serif">{experience.Period}</p>
                     </div>
-                    <p>{experience.Company}</p>
-                    <div className="flex flex-col w-full">
-                      <strong>Description:</strong>
+                    <div className="flex flex-row justify-between">
+                      <p>{experience.Company}</p>
+                      <p className="text-xs font-serif">Cincinnati, Ohio</p>
+                    </div>
+                    <div className="flex flex-col gap-1 mt-2 ">
+                      <strong>Roles & Responsibilties:</strong>
                       <ul className="list-disc list-inside">
                         {experience.Description.map(
                           (description: string, idx: number) => (
@@ -109,13 +118,17 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-start p-2">
+        <div className="flex flex-col items-start justify-start p-2 w-full">
           <h1 className="font-medium">Education</h1>
+          <hr className="w-full h-0.5 bg-black"></hr>
           <div className="text-pretty tracking">
             {props.resumedata?.Education?.length > 0 ? (
               props.resumedata.Education.map(
                 (education: any, index: number) => (
-                  <div key={index} className="mb-4 p-4 rounded-lg bg-gray-200">
+                  <div
+                    key={index}
+                    className="mb-4 p-4 rounded-lg bg-gray-100/15"
+                  >
                     <p>
                       <strong>Degree:</strong> {education.Degree}
                     </p>
