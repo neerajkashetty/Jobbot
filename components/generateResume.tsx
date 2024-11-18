@@ -25,11 +25,9 @@ export function GenerateResume() {
 
     const element = pdfRef.current;
 
-    // Render HTML to canvas
     const canvas = await html2canvas(element, { scale: 4 });
     const imgData = canvas.toDataURL("image/png");
 
-    // Generate PDF
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "pt",
@@ -39,7 +37,6 @@ export function GenerateResume() {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    // Add the image to the PDF
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save("Resume.pdf");
   };
