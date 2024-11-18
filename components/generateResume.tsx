@@ -1,7 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Example from "./combobox";
 import { people, output } from "../utils/data";
-import { JobInformation } from "../app/actions/jobinfo";
 import { useState } from "react";
 import { resume, ResumeParams } from "../app/actions/ai";
 import { Preview } from "./preview";

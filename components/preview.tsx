@@ -10,13 +10,15 @@ export const Preview = (props: Previewprops) => {
 
   return (
     <div className="w-1/2 h-full">
-      <div className="flex text-md border h-1/12 justify-between w-full p-2.5 items-end">
+      <div className="flex text-md border h-1/12 justify-between items-center w-full p-2.5 ">
         <span className="cursor-pointer hover:border-b p-2 font-bold">
           Preview
         </span>
+        <button className="font-bold p-2 bg-blue-300 text-blue-900 rounded-lg ">
+          Download
+        </button>
       </div>
       <div className="bg-gray-100 h-full m-2 rounded-lg flex flex-col">
-        {/* Header Section */}
         <div className="flex flex-col items-center justify-center">
           <h1 className="font-bold text-2xl">
             {props?.resumedata?.PersonalDetails?.Name ?? "NEERAJ"}
@@ -37,13 +39,11 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        {/* Summary Section */}
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Summary</h1>
           <p>{props.resumedata?.Summary ?? "No summary available."}</p>
         </div>
 
-        {/* Technical Skills Section */}
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Technical Skills</h1>
           <div className="p-2 flex flex-col gap-1">
@@ -71,7 +71,6 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        {/* Professional Experience Section */}
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Professional Experience</h1>
           <div className="text-pretty tracking">
@@ -110,7 +109,6 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        {/* Education Section */}
         <div className="flex flex-col items-start justify-start p-2">
           <h1 className="font-medium">Education</h1>
           <div className="text-pretty tracking">

@@ -51,7 +51,8 @@ export async function resume(resumeParams: ResumeParams) {
     - Degree: ${Education}
   
   - Professional Experience:
-    - ${Experience}
+    - ${Experience} 
+    
   
   **Important Instructions:**
   1. For **previous work experience**, include the **period** in the format: "Month Year to Month Year" (e.g., "Jul 2004 to Jan 2015"). If only the year is available, format it as "Year-Year" (e.g., "2004-2015").
@@ -62,6 +63,7 @@ export async function resume(resumeParams: ResumeParams) {
      - **Other Technologies:** Include tools, methodologies, or technologies not covered in the above categories (e.g., Git, Docker, CI/CD, Agile, etc.).
   3. Provide the **description** for each job as bullet points, with at least **5 key points**. Highlight specific responsibilities, achievements, and skills relevant to the new job description provided above. Use metrics or outcomes wherever applicable.
   4. For the **Skills** section, ensure all items are extracted from the provided details, job description, and plausible technical proficiencies based on the candidate's profile.
+  5. Generate Some Fake Experience with FAANG if the array only has one entry  
   
   Format the resume as a JSON object with the following structure:
   {
