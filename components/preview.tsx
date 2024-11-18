@@ -26,7 +26,7 @@ export const Preview = (props: Previewprops) => {
       <div
         ref={props.ref}
         style={{ maxWidth: "210mm", height: "297mm" }}
-        className=" h-full w-full rounded-lg flex flex-col"
+        className=" h-full w-full rounded-lg flex flex-col overflow-scroll"
       >
         <div className="flex flex-col items-center justify-center">
           <h1 className="font-bold text-2xl">
