@@ -11,7 +11,7 @@ export const Preview = (props: Previewprops) => {
   const technicalSkills = props?.resumedata?.Skills ?? {};
 
   return (
-    <div className="w-1/2 h-full " ref={props.ref}>
+    <div className="h-full md:w-1/2 ">
       <div className="flex text-md border h-1/12 justify-between items-center w-full p-2.5 ">
         <span className="cursor-pointer hover:border-b p-2 font-bold">
           Preview
@@ -23,7 +23,11 @@ export const Preview = (props: Previewprops) => {
           Download
         </button>
       </div>
-      <div className="bg-gray-100/25 h-full m-2 rounded-lg flex flex-col">
+      <div
+        ref={props.ref}
+        style={{ maxWidth: "210mm", height: "297mm" }}
+        className=" h-full w-full rounded-lg flex flex-col"
+      >
         <div className="flex flex-col items-center justify-center">
           <h1 className="font-bold text-2xl">
             {props?.resumedata?.PersonalDetails?.Name ?? "NEERAJ"}

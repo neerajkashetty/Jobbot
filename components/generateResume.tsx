@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import { resume, ResumeParams } from "../app/actions/ai";
 import { Preview } from "./preview";
 import { Dialog } from "./Dialog";
+import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 export function GenerateResume() {
@@ -16,20 +17,31 @@ export function GenerateResume() {
   const [resumedata, setResumeData] = useState<any>();
   const pdfRef = useRef<any>();
 
-  const hanldeGenerate = () => {
-    const doc = new jsPDF({
-      orientation: "landscape",
+  const hanldeGenerate = async () => {
+    if (!pdfRef.current) {
+      console.error("PDF Reference not found");
+      return;
+    }
+
+    const element = pdfRef.current;
+
+    // Render HTML to canvas
+    const canvas = await html2canvas(element, { scale: 4 });
+    const imgData = canvas.toDataURL("image/png");
+
+    // Generate PDF
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
       format: "a4",
-      unit: "px",
     });
 
-    doc.setFont("Inter-Regular", "normal");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    doc.html(pdfRef.current, {
-      async callback(doc) {
-        await doc.save("document");
-      },
-    });
+    // Add the image to the PDF
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("Resume.pdf");
   };
 
   const Generate = async () => {
