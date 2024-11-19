@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 export default function Page() {
   return (
-    <div className="h-screen ">
+    <div className="">
       <Header />
       <Intro />
       <Footer />

@@ -11,7 +11,7 @@ export const Preview = (props: Previewprops) => {
   const technicalSkills = props?.resumedata?.Skills ?? {};
 
   return (
-    <div className="h-full md:w-1/2 ">
+    <div className="h-full md:w-2/3 overflow-y-scroll text-xs ">
       <div className="flex text-md border h-1/12 justify-between items-center w-full p-2.5 ">
         <span className="cursor-pointer hover:border-b p-2 font-bold">
           Preview
@@ -25,8 +25,8 @@ export const Preview = (props: Previewprops) => {
       </div>
       <div
         ref={props.ref}
-        style={{ maxWidth: "210mm", height: "297mm" }}
-        className=" h-full w-full rounded-lg flex flex-col overflow-scroll"
+        style={{ maxWidth: "220mm", height: "300mm" }}
+        className=" h-full w-full rounded-lg flex flex-col "
       >
         <div className="flex flex-col items-center justify-center">
           <h1 className="font-bold text-2xl">
@@ -48,17 +48,17 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-start p-2">
+        <div className="flex flex-col items-start justify-start">
           <h1 className="font-medium">Summary</h1>
-          <hr className="w-full h-0.5 bg-black"></hr>
+          <hr className="w-full h-0.2 mt-2 bg-black"></hr>
           <p>{props.resumedata?.Summary ?? "No summary available."}</p>
         </div>
 
-        <div className="flex flex-col items-start justify-start p-2">
+        <div className="flex flex-col items-start justify-start mt-1">
           <h1 className="font-medium">Technical Skills</h1>
-          <hr className="w-full h-0.5 bg-black"></hr>
+          <hr className="w-full h-0.2 mt-2 bg-black"></hr>
 
-          <div className="p-2 flex flex-col gap-1">
+          <div className="m-1 flex flex-col gap-0.5">
             {Object.keys(technicalSkills).length > 0 ? (
               Object.entries(technicalSkills).map(
                 ([category, skills]: any, index) => (
@@ -83,14 +83,14 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-start p-2">
+        <div className="flex flex-col items-start justify-start p-1">
           <h1 className="font-medium">Professional Experience</h1>
-          <hr className="w-full h-0.5 bg-black"></hr>
+          <hr className="w-full h-0.2 mt-2 bg-black"></hr>
           <div className="text-pretty w-full tracking ">
             {props.resumedata?.Experience?.length > 0 ? (
               props.resumedata.Experience.map(
                 (experience: any, index: number) => (
-                  <div key={index} className="p-2 rounded-lg">
+                  <div key={index} className=" rounded-lg">
                     <div className="flex flex-row justify-between">
                       <h2 className="font-semibold">
                         {experience["Job Title"]}
@@ -101,9 +101,9 @@ export const Preview = (props: Previewprops) => {
                       <p>{experience.Company}</p>
                       <p className="text-xs font-serif">Cincinnati, Ohio</p>
                     </div>
-                    <div className="flex flex-col gap-1 mt-2 ">
+                    <div className="flex flex-col ">
                       <strong>Roles & Responsibilties:</strong>
-                      <ul className="list-disc list-inside">
+                      <ul className="list-disc list-outside ml-4 text-wrap">
                         {experience.Description.map(
                           (description: string, idx: number) => (
                             <li key={idx} className="font-normal">
@@ -122,16 +122,16 @@ export const Preview = (props: Previewprops) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-start p-2 w-full">
+        <div className="flex flex-col items-start justify-start p-1 w-full">
           <h1 className="font-medium">Education</h1>
-          <hr className="w-full h-0.5 bg-black"></hr>
+          <hr className="w-full h-0.1 mt-2 bg-black"></hr>
           <div className="text-pretty tracking">
             {props.resumedata?.Education?.length > 0 ? (
               props.resumedata.Education.map(
                 (education: any, index: number) => (
                   <div
                     key={index}
-                    className="mb-4 p-4 rounded-lg bg-gray-100/15"
+                    className="mb-4 p-1 rounded-lg bg-gray-100/15"
                   >
                     <p>
                       <strong>Degree:</strong> {education.Degree}

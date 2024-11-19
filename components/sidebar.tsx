@@ -20,7 +20,7 @@ export const SideBar = () => {
         width: open ? "280px" : "fit-content",
         transition: "width 0.3s ease",
       }}
-      className="h-screen flex flex-col gap-6 p-2 bg-white border-r border-slate-200"
+      className="h-full overflow-y-hidden flex flex-col gap-6 p-2 bg-white border-r border-slate-200"
     >
       <div className="flex flex-row justify-between font-bold p-2 ">
         {open && (

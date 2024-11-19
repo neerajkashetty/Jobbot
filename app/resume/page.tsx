@@ -10,9 +10,9 @@ export default function Resume() {
   console.log({ session, status });
   if (status === "authenticated") {
     return (
-      <div id="Resume" className=" flex flex-row  w-full">
+      <div id="Resume" className=" flex flex-row h-screen">
         <SideBar />
-        <div className="w-full h-full">
+        <div className="w-full h-screen flex flex-col">
           <Subheader />
           <GenerateResume />
         </div>
