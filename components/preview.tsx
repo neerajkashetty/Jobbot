@@ -5,6 +5,7 @@ interface Previewprops {
   Email: string;
   ref: any;
   generate: any;
+  Errors: any;
 }
 
 export const Preview = (props: Previewprops) => {
@@ -50,7 +51,7 @@ export const Preview = (props: Previewprops) => {
 
         <div className="flex flex-col items-start justify-start">
           <h1 className="font-medium">Summary</h1>
-          <hr className="w-full h-0.2 mt-2 bg-black"></hr>
+          <hr className="w-full h-0.2 mt-1 bg-black"></hr>
           <p>{props.resumedata?.Summary ?? "No summary available."}</p>
         </div>
 
@@ -85,7 +86,7 @@ export const Preview = (props: Previewprops) => {
 
         <div className="flex flex-col items-start justify-start p-1">
           <h1 className="font-medium">Professional Experience</h1>
-          <hr className="w-full h-0.2 mt-2 bg-black"></hr>
+          <hr className="w-full h-0.2 mt-1 bg-black"></hr>
           <div className="text-pretty w-full tracking ">
             {props.resumedata?.Experience?.length > 0 ? (
               props.resumedata.Experience.map(
@@ -124,7 +125,7 @@ export const Preview = (props: Previewprops) => {
 
         <div className="flex flex-col items-start justify-start p-1 w-full">
           <h1 className="font-medium">Education</h1>
-          <hr className="w-full h-0.1 mt-2 bg-black"></hr>
+          <hr className="w-full h-0.1 mt-1 bg-black"></hr>
           <div className="text-pretty tracking">
             {props.resumedata?.Education?.length > 0 ? (
               props.resumedata.Education.map(

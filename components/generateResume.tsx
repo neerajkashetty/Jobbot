@@ -1,4 +1,3 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import Example from "./combobox";
 import { people, output } from "../utils/data";
 import { useState, useRef } from "react";
@@ -7,6 +6,8 @@ import { Preview } from "./preview";
 import { Dialog } from "./Dialog";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import z from "zod";
+import { GenerateResumeSchema } from "../app/schemas/generateresume.schema";
 
 export function GenerateResume() {
   const [jobtitle, setJobTitle] = useState<any>("");
@@ -16,6 +17,9 @@ export function GenerateResume() {
   const [LastName, setLastName] = useState<string>("");
   const [resumedata, setResumeData] = useState<any>();
   const pdfRef = useRef<any>();
+  const [errors, setErrors] = useState<z.ZodError<GenerateResumeSchema> | null>(
+    null
+  );
 
   const hanldeGenerate = async () => {
     if (!pdfRef.current) {
@@ -42,6 +46,21 @@ export function GenerateResume() {
   };
 
   const Generate = async () => {
+    const formData = {
+      jobtitle,
+      jobdescription,
+    };
+
+    const result = GenerateResumeSchema.safeParse(formData);
+
+    if (!result.success) {
+      console.error("Validation errors:", result.error.format());
+      console.log(result.error);
+      setErrors(result.error);
+      alert("Please check your input and try again.");
+      return;
+    }
+
     const resumeParams: ResumeParams = {
       jobtitle,
       skills: ["React", "Node", "typescript"],
@@ -84,6 +103,11 @@ export function GenerateResume() {
               placeholder="Job title"
               onChange={(e) => setJobTitle(e.target.value)}
             ></input>
+            {errors?.formErrors.fieldErrors.JobTitle && (
+              <p className="text-red-500 text-sm">
+                {errors.formErrors.fieldErrors.JobTitle[0]}
+              </p>
+            )}
           </div>
           <div>
             <p>Paste the job description below</p>
@@ -94,6 +118,11 @@ export function GenerateResume() {
                 setJobDescription(e.target.value);
               }}
             ></textarea>
+            {errors?.formErrors.fieldErrors.JobTitle && (
+              <p className="text-red-500 text-sm">
+                {errors.formErrors.fieldErrors.JobTitle[0]}
+              </p>
+            )}
           </div>
           <div className="flex flex-col gap-2 p-2">
             <h1 className="text-sm font-medium">
