@@ -21,7 +21,7 @@ export function GenerateResume() {
     null
   );
 
-  const hanldeGenerate = async () => {
+  const hanldeDownload = async () => {
     if (!pdfRef.current) {
       console.error("PDF Reference not found");
       return;
@@ -50,6 +50,8 @@ export function GenerateResume() {
       jobtitle,
       jobdescription,
     };
+
+    console.log(formData);
 
     const result = GenerateResumeSchema.safeParse(formData);
 
@@ -103,9 +105,9 @@ export function GenerateResume() {
               placeholder="Job title"
               onChange={(e) => setJobTitle(e.target.value)}
             ></input>
-            {errors?.formErrors.fieldErrors.JobTitle && (
+            {errors?.formErrors.fieldErrors.jobtitle && (
               <p className="text-red-500 text-sm">
-                {errors.formErrors.fieldErrors.JobTitle[0]}
+                {errors.formErrors.fieldErrors.jobtitle[0]}
               </p>
             )}
           </div>
@@ -118,9 +120,9 @@ export function GenerateResume() {
                 setJobDescription(e.target.value);
               }}
             ></textarea>
-            {errors?.formErrors.fieldErrors.JobTitle && (
+            {errors?.formErrors.fieldErrors.jobdescription && (
               <p className="text-red-500 text-sm">
-                {errors.formErrors.fieldErrors.JobTitle[0]}
+                {errors.formErrors.fieldErrors.jobdescription[0]}
               </p>
             )}
           </div>
@@ -157,7 +159,7 @@ export function GenerateResume() {
         Firstname={FirstName}
         Lastname={LastName}
         Email=""
-        generate={hanldeGenerate}
+        generate={hanldeDownload}
       />
       <Dialog />
     </div>

@@ -5,11 +5,11 @@ interface Previewprops {
   Email: string;
   ref: any;
   generate: any;
-  Errors: any;
 }
 
 export const Preview = (props: Previewprops) => {
   const technicalSkills = props?.resumedata?.Skills ?? {};
+  console.log(props?.resumedata?.PersonalDetails, "linkeding");
 
   return (
     <div className="h-full md:w-2/3 overflow-y-scroll text-xs ">

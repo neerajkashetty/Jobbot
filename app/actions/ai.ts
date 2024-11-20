@@ -128,7 +128,7 @@ export async function resume(resumeParams: ResumeParams) {
         "Technologies": ["React", "AWS", "Postgres"]
       }
     ],
-    "Personal Details": {
+    "PersonalDetails": {
       "Name": "John Doe",
       "Location": "Cincinnati, OH",
       "LinkedIn": "linkedin.com/in/johndoe",
