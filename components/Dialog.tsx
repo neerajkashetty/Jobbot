@@ -13,7 +13,6 @@ export function Dialog() {
   const { data: session } = useSession();
   const username = session?.user?.name ?? "";
   const [valid, setValid] = useState<boolean | undefined>(true);
-  const [experience, setExperience] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(true);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -21,17 +20,37 @@ export function Dialog() {
   const [phone, setPhone] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [github, setGithub] = useState("");
-  const [degree, setDegree] = useState("");
-  const [university, setUniversity] = useState("");
-  const [cgpa, setCgpa] = useState("");
+  const [education, setEducation] = useState([
+    { degree: "", university: "", cgpa: "" },
+  ]);
   const [jobTitle, setJobTitle] = useState("");
+  const [currentStep, setCurrentStep] = useState<
+    "personal" | "education" | "experience"
+  >("personal");
   const [period, setPeriod] = useState("");
   const [company, setCompany] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] =
     useState<z.ZodError<PersonalInfoSchemaType> | null>(null);
 
+  function goToNextStep() {
+    if (currentStep === "personal") setCurrentStep("education");
+    else if (currentStep === "education") setCurrentStep("experience");
+  }
+
+  function goToPreviousStep() {
+    if (currentStep === "experience") setCurrentStep("education");
+    else if (currentStep === "education") setCurrentStep("personal");
+  }
+
   async function handleSubmit() {
+    console.log(username, "dsad");
+    // Validate education entries
+    const parsedEducation = education.map((edu) => ({
+      ...edu,
+      CGPA: parseInt(edu.cgpa, 10), // Ensure CGPA is an integer
+    }));
+
     const formData = {
       firstname,
       lastname,
@@ -39,9 +58,7 @@ export function Dialog() {
       linkedin,
       location,
       github,
-      degree,
-      university,
-      cgpa: parseFloat(cgpa),
+      education: parsedEducation,
       jobTitle,
       period,
       company,
@@ -49,37 +66,49 @@ export function Dialog() {
     };
 
     const result = PersonalInfoSchema.safeParse(formData);
-
     if (!result.success) {
       console.error("Validation errors:", result.error.format());
       setErrors(result.error);
       alert("Please check your input and try again.");
       return;
     }
-    const submit = await personalInfo(
-      firstname,
-      lastname,
-      parseInt(phone),
-      linkedin,
-      location,
-      github,
-      degree,
-      university,
-      parseFloat(cgpa),
-      jobTitle,
-      company,
-      description,
-      parseInt(period),
-      username
-    );
 
-    if (submit) {
-      setOpen(false);
+    // Submit each education record
+    for (const edu of parsedEducation) {
+      await personalInfo(
+        firstname,
+        lastname,
+        parseInt(phone),
+        linkedin,
+        location,
+        github,
+        edu.degree,
+        edu.university,
+        edu.CGPA,
+        company,
+        description,
+        parseInt(period),
+        username
+      );
     }
+
+    setOpen(false);
   }
 
-  function renderExperience() {
-    setExperience(!experience);
+  function handleEducationChange(index: number, field: string, value: string) {
+    setEducation((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  }
+
+  function addEducation() {
+    setEducation([...education, { degree: "", university: "", cgpa: "" }]);
+  }
+
+  function removeEducation(index: number) {
+    setEducation(education.filter((_, i) => i !== index));
   }
 
   function handleOpen() {
@@ -106,22 +135,22 @@ export function Dialog() {
 
   return (
     <>
-      {!valid && open && (
+      {valid && open && (
         <AnimatePresence>
-          <div className="absolute inset-0 h-screen flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+          <div className="absolute inset-0  h-screen flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               exit={{ opacity: 0, scale: 0 }}
-              className="w-1/2 bg-slate-100 h-4/5 p-2 rounded-lg flex flex-col gap-2 items-center justify-start"
+              className="w-1/2 overflow-hidden bg-slate-100 h-2/3 p-2 rounded-lg flex flex-col gap-2 items-center justify-start"
             >
-              {!experience ? (
+              {currentStep === "personal" && (
                 <>
                   <h1 className="font-bold text-xl p-2">
                     Please Fill in your Personal Details for our Record
                   </h1>
-                  <div className="flex flex-row w-full gap-2 p-2">
+                  <div className="flex flex-row w-full  gap-2 p-2">
                     <div className="flex-col gap-2 w-full flex">
                       <h1 className="text-sm font-medium">First Name</h1>
                       <input
@@ -212,25 +241,61 @@ export function Dialog() {
                       )}
                     </div>
                   </div>
-                  <hr className="w-full h-0.5 bg-blue-100"></hr>
-                  <div className="w-full">
-                    <h1 className="font-bold text-blue-700 text-center text-lg">
+                  <div className="flex-col gap-2 w-full flex justify-end items-end m-2">
+                    <button
+                      onClick={() => goToNextStep()}
+                      className="p-1 bg-blue-300 w-1/6"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </>
+              )}
+              {currentStep === "education" && (
+                <div className="w-full ">
+                  <div className="flex items-center  justify-between">
+                    <div
+                      onClick={goToPreviousStep}
+                      className="flex hover:cursor-pointer"
+                    >
+                      <ArrowBigLeft className=" hover:cursor-pointer" />
+                      <p className="underline font-semibold">Back</p>
+                    </div>
+                    <h1 className="font-bold text-blue-700 text-center text-lg w-4/5">
                       Education
                     </h1>
-                    <div className="flex flex-row w-full gap-2 p-2">
+                    <button
+                      onClick={addEducation}
+                      className="p-1 bg-blue-400 text-white font-semibold rounded-lg w-1/6 mt-2"
+                    >
+                      Add +
+                    </button>
+                  </div>
+                  {education.map((edu, index) => (
+                    <div key={index} className="flex flex-row w-full gap-2 p-2">
                       <div className="flex-col gap-2 w-full flex">
                         <h1 className="text-sm font-medium">Degree Obtained</h1>
                         <input
                           placeholder="Degree Obtained"
-                          value={degree}
-                          onChange={(e) => setDegree(e.target.value)}
+                          value={edu.degree}
+                          onChange={(e) =>
+                            handleEducationChange(
+                              index,
+                              "degree",
+                              e.target.value
+                            )
+                          }
                           className="w-full bg-gray-200 rounded-lg p-2"
                         />
-                        {errors?.formErrors.fieldErrors.degree && (
-                          <p className="text-red-500 text-sm">
-                            {errors.formErrors.fieldErrors.degree[0]}
-                          </p>
-                        )}
+                        {errors?.formErrors.fieldErrors &&
+                          Object.entries(errors.formErrors.fieldErrors).map(
+                            ([key, value]) => (
+                              <p key={key} className="text-red-500 text-sm">
+                                {value[0]}{" "}
+                                {/* Assuming value is an array of error messages */}
+                              </p>
+                            )
+                          )}
                       </div>
                       <div className="flex-col gap-2 w-full flex">
                         <h1 className="text-sm font-medium">
@@ -238,53 +303,84 @@ export function Dialog() {
                         </h1>
                         <input
                           placeholder="Name of University"
-                          value={university}
-                          onChange={(e) => setUniversity(e.target.value)}
+                          value={edu.university}
+                          onChange={(e) =>
+                            handleEducationChange(
+                              index,
+                              "university",
+                              e.target.value
+                            )
+                          }
                           className="w-full bg-gray-200 rounded-lg p-2"
                         />
-                        {errors?.formErrors.fieldErrors.university && (
-                          <p className="text-red-500 text-sm">
-                            {errors.formErrors.fieldErrors.university[0]}
-                          </p>
-                        )}
+                        {errors?.formErrors.fieldErrors &&
+                          Object.entries(errors.formErrors.fieldErrors).map(
+                            ([key, value]) => (
+                              <p key={key} className="text-red-500 text-sm">
+                                {value[0]}{" "}
+                                {/* Assuming value is an array of error messages */}
+                              </p>
+                            )
+                          )}
                       </div>
-                    </div>
-                    <div className="flex flex-row w-full gap-2 p-2">
                       <div className="flex-col gap-2 w-full flex">
                         <h1 className="text-sm font-medium">CGPA</h1>
                         <input
                           placeholder="CGPA"
-                          value={cgpa}
-                          onChange={(e) => setCgpa(e.target.value)}
+                          value={edu.cgpa}
+                          onChange={(e) =>
+                            handleEducationChange(index, "cgpa", e.target.value)
+                          }
                           className="w-full bg-gray-200 rounded-lg p-2"
                         />
-                        {errors?.formErrors.fieldErrors.cgpa && (
-                          <p className="text-red-500 text-sm">
-                            {errors.formErrors.fieldErrors.cgpa[0]}
-                          </p>
-                        )}
+                        {errors?.formErrors.fieldErrors &&
+                          Object.entries(errors.formErrors.fieldErrors).map(
+                            ([key, value]) => (
+                              <p key={key} className="text-red-500 text-sm">
+                                {value[0]}{" "}
+                                {/* Assuming value is an array of error messages */}
+                              </p>
+                            )
+                          )}
                       </div>
-                      <div className="flex-col gap-2 w-full flex justify-end items-end m-2">
-                        <button
-                          onClick={renderExperience}
-                          className="p-2 bg-blue-300 w-1/3"
-                        >
-                          Next
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => removeEducation(index)}
+                        className="  text-red-900 font-semibold rounded-lg w-1/6 "
+                      >
+                        delete
+                      </button>
                     </div>
+                  ))}
+
+                  <div className="flex-col gap-2 w-full flex justify-end items-end m-2">
+                    <button
+                      onClick={goToNextStep}
+                      className="p-1 bg-blue-300 w-1/6"
+                    >
+                      Next
+                    </button>
                   </div>
-                </>
-              ) : (
+                </div>
+              )}
+              {currentStep === "experience" && (
                 <>
-                  <div className="flex flex-row w-full gap-16">
-                    <ArrowBigLeft
-                      onClick={renderExperience}
-                      className="flex flex-row justify-start items-start w-1/3 hover:cursor-pointer"
-                    />
+                  <div className="flex flex-row justify-between w-full gap-16">
+                    <div
+                      onClick={goToPreviousStep}
+                      className="flex hover:cursor-pointer"
+                    >
+                      <ArrowBigLeft className=" hover:cursor-pointer" />
+                      <p className="underline font-semibold">Back</p>
+                    </div>
                     <h1 className="font-bold text-blue-800 text-xl">
                       Experience
                     </h1>
+                    <button
+                      onClick={addEducation}
+                      className="p-1 bg-blue-400 text-white font-semibold rounded-lg w-1/6 mt-2"
+                    >
+                      Add +
+                    </button>
                   </div>
                   <div className="flex flex-row w-full gap-2 p-2">
                     <div className="flex-col gap-2 w-full flex">

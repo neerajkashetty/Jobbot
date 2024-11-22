@@ -38,6 +38,7 @@ model PersonalDetails {
   phone Int
   linkedin String @unique
   github String 
+  education  Json?
 }
 
 

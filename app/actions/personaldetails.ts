@@ -54,7 +54,7 @@ export async function personalInfo(
         linkedin,
         location,
         github,
-        phone: 121,
+        phone,
       },
     });
 

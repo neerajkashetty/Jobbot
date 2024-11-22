@@ -1,22 +1,25 @@
-import { z } from "zod";
+import * as z from "zod";
 
 export const PersonalInfoSchema = z.object({
-  firstname: z.string().min(1, "First name is required"),
-  lastname: z.string().min(1, "Last name is required"),
-  phone: z.string().regex(/^\d+$/, "Phone must be a valid number"),
-  linkedin: z.string().url("LinkedIn must be a valid URL"),
-  github: z.string().url("GitHub must be a valid URL"),
-  location: z.string().min(1, "Location is required"),
-  degree: z.string().min(1, "Degree is required"),
-  university: z.string().min(1, "University is required"),
-  cgpa: z
-    .number()
-    .min(0, "CGPA cannot be less than 0")
-    .max(10, "CGPA cannot be more than 10"),
-  jobTitle: z.string().optional(),
-  period: z.string().regex(/^\d+$/, "Period must be a valid number").optional(),
-  company: z.string().optional(),
-  description: z.string().optional(),
+  firstname: z.string().nonempty("First name is required."),
+  lastname: z.string().nonempty("Last name is required."),
+  phone: z.string().regex(/^\d+$/, "Phone must be numeric."),
+  linkedin: z.string().url("Invalid LinkedIn URL."),
+  location: z.string().nonempty("Location is required."),
+  github: z.string().url("Invalid GitHub URL."),
+  education: z
+    .array(
+      z.object({
+        degree: z.string().nonempty("Degree is required."),
+        university: z.string().nonempty("University is required."),
+        cgpa: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid CGPA."),
+      })
+    )
+    .min(1, "At least one education record is required."),
+  jobTitle: z.string().nonempty("Job title is required."),
+  period: z.string().nonempty("Period is required."),
+  company: z.string().nonempty("Company is required."),
+  description: z.string().nonempty("Description is required."),
 });
 
 export type PersonalInfoSchemaType = z.infer<typeof PersonalInfoSchema>;
