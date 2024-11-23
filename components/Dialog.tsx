@@ -45,11 +45,10 @@ export function Dialog() {
 
   async function handleSubmit() {
     console.log(username, "dsad");
-    // Validate education entries
     const parsedEducation = education.map((edu) => ({
-      degree: edu.degree || "", // Provide default values if missing
+      degree: edu.degree || "",
       university: edu.university || "",
-      cgpa: edu.cgpa || "0.0", // Default CGPA to "0.0" if missin
+      cgpa: edu.cgpa || "0.0",
     }));
 
     const formData = {
@@ -68,14 +67,14 @@ export function Dialog() {
 
     console.log(formData);
 
-    // const result = PersonalInfoSchema.safeParse(formData);
-    // console.log(formData);
-    // if (!result.success) {
-    //   console.error("Validation errors:", result.error.format());
-    //   setErrors(result.error);
-    //   alert("Please check your input and try again.");
-    //   return;
-    // }
+    const result = PersonalInfoSchema.safeParse(formData);
+    console.log(formData);
+    if (!result.success) {
+      console.error("Validation errors:", result.error.format());
+      setErrors(result.error);
+      alert("Please check your input and try again.");
+      return;
+    }
 
     const response = await personalInfo(
       firstname,
@@ -137,7 +136,7 @@ export function Dialog() {
 
   return (
     <>
-      {valid && open && (
+      {!valid && open && (
         <AnimatePresence>
           <div className="absolute inset-0  h-screen flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
             <motion.div

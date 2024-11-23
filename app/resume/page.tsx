@@ -12,7 +12,7 @@ export default function Resume() {
     return (
       <div id="Resume" className=" flex flex-row h-screen">
         <SideBar />
-        <div className="w-full h-screen flex flex-col">
+        <div className="w-full max-h-fit flex flex-col">
           <Subheader />
           <GenerateResume />
         </div>
