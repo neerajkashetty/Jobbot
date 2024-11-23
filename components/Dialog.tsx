@@ -47,8 +47,9 @@ export function Dialog() {
     console.log(username, "dsad");
     // Validate education entries
     const parsedEducation = education.map((edu) => ({
-      ...edu,
-      CGPA: parseInt(edu.cgpa, 10),
+      degree: edu.degree || "", // Provide default values if missing
+      university: edu.university || "",
+      cgpa: edu.cgpa || "0.0", // Default CGPA to "0.0" if missin
     }));
 
     const formData = {
@@ -65,32 +66,35 @@ export function Dialog() {
       description,
     };
 
-    const result = PersonalInfoSchema.safeParse(formData);
-    if (!result.success) {
-      console.error("Validation errors:", result.error.format());
-      setErrors(result.error);
-      alert("Please check your input and try again.");
-      return;
-    }
+    console.log(formData);
 
-    for (const edu of parsedEducation) {
-      await personalInfo(
-        firstname,
-        lastname,
-        parseInt(phone),
-        linkedin,
-        location,
-        github,
-        education,
-        username,
-        jobTitle,
-        company,
-        description,
-        parseInt(period)
-      );
-    }
+    // const result = PersonalInfoSchema.safeParse(formData);
+    // console.log(formData);
+    // if (!result.success) {
+    //   console.error("Validation errors:", result.error.format());
+    //   setErrors(result.error);
+    //   alert("Please check your input and try again.");
+    //   return;
+    // }
 
-    setOpen(false);
+    const response = await personalInfo(
+      firstname,
+      lastname,
+      parseInt(phone, 10),
+      linkedin,
+      location,
+      github,
+      parsedEducation,
+      username,
+      jobTitle,
+      company,
+      description,
+      parseInt(period, 10)
+    );
+
+    if (response === true) {
+      setOpen(false);
+    }
   }
 
   function handleEducationChange(index: number, field: string, value: string) {

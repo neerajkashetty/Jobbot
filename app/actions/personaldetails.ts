@@ -37,7 +37,7 @@ export async function personalInfo(
   linkedin: string,
   location: string,
   github: string,
-  education: object,
+  education: any,
   username: string,
   title: string,
   company: string,
@@ -45,17 +45,46 @@ export async function personalInfo(
   Period: number
 ) {
   try {
-    await client.personalDetails.create({
+    // Log all the incoming data
+    console.log("Received data:");
+    console.log({
+      firstname,
+      Lastname,
+      phone,
+      linkedin,
+      location,
+      github,
+      education,
+      username,
+      title,
+      company,
+      description,
+      Period,
+    });
+
+    console.log("Education type:", typeof education);
+    console.log("Education data:", education);
+
+    // Check if education is an array
+    if (Array.isArray(education)) {
+      console.log("Education array length:", education.length);
+    } else {
+      console.log("Education is not an array");
+    }
+
+    const response = await client.personalDetails.create({
       data: {
         firstname,
         Lastname,
+        phone,
         linkedin,
         location,
         github,
-        phone,
         education,
       },
     });
+
+    console.log("Personal details saved:", response);
 
     await client.experience.create({
       data: {
@@ -67,8 +96,11 @@ export async function personalInfo(
       },
     });
 
+    console.log("Experience saved");
+
     return true;
   } catch (e) {
+    console.error("Error occurred:", e);
     return e;
   }
 }
