@@ -37,14 +37,12 @@ export async function personalInfo(
   linkedin: string,
   location: string,
   github: string,
-  Degree: string,
-  University: string,
-  CGPA: number,
+  education: object,
+  username: string,
   title: string,
   company: string,
   description: string,
-  Period: number,
-  username: string
+  Period: number
 ) {
   try {
     await client.personalDetails.create({
@@ -55,15 +53,7 @@ export async function personalInfo(
         location,
         github,
         phone,
-      },
-    });
-
-    await client.education.create({
-      data: {
-        username,
-        Degree,
-        CGPA,
-        University,
+        education,
       },
     });
 

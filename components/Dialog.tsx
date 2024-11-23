@@ -48,7 +48,7 @@ export function Dialog() {
     // Validate education entries
     const parsedEducation = education.map((edu) => ({
       ...edu,
-      CGPA: parseInt(edu.cgpa, 10), // Ensure CGPA is an integer
+      CGPA: parseInt(edu.cgpa, 10),
     }));
 
     const formData = {
@@ -73,7 +73,6 @@ export function Dialog() {
       return;
     }
 
-    // Submit each education record
     for (const edu of parsedEducation) {
       await personalInfo(
         firstname,
@@ -82,13 +81,12 @@ export function Dialog() {
         linkedin,
         location,
         github,
-        edu.degree,
-        edu.university,
-        edu.CGPA,
+        education,
+        username,
+        jobTitle,
         company,
         description,
-        parseInt(period),
-        username
+        parseInt(period)
       );
     }
 
