@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE "PersonalDetails" ADD COLUMN     "education" JSONB;
+ALTER TABLE "PersonalDetails" ADD COLUMN   "education" JSONB;

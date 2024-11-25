@@ -60,3 +60,12 @@ model Experience{
   description String 
   Period Int
 }
+
+model Resume {
+  id        String   @id @default(cuid())
+  jobTitle  String
+  userId    String   // To associate resumes with users
+  pdfUrl    String   // Store the PDF file URL/path
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
