@@ -8,11 +8,6 @@ import { GenerateResumeSchema } from "../app/schemas/generateresume.schema";
 import type { ZodError } from "zod";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import {
-  saveResumePDF,
-  getUserResumes,
-  getResumeById,
-} from "../app/actions/storetoblob";
 import { Clock, Download, ChevronDown, Eye } from "lucide-react";
 
 interface StoredResume {
@@ -117,9 +112,28 @@ export function GenerateResume() {
       // Convert PDF to blob
       const pdfBlob = pdf.output("blob");
 
+      const formData = new FormData();
+
+      formData.append("file", pdfBlob, "resume");
+      formData.append("jobtitle", jobtitle);
+      formData.append("resumeData", JSON.stringify(resumedata));
+
       // Save to database and storage
       // Replace with actual user ID from your auth system
-      await saveResumePDF(pdfBlob, resumedata, jobtitle);
+      const response = await fetch("/api/uploadResume", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.url) {
+        console.log("Resume uploaded successfully:", result.url);
+        alert("Resume uploaded successfully!");
+      } else {
+        console.error("Failed to upload resume:", result.error);
+        alert("Failed to upload resume. Please try again.");
+      }
 
       // Refresh the stored resumes list
       // await fetchStoredResumes();
