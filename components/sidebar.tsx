@@ -5,13 +5,16 @@ import {
   NotebookPen,
   Star,
   Settings,
+  Notebook,
 } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Dashboard from "./Dashboard";
 
 export const SideBar = () => {
   const [open, setOpen] = useState(false);
+  const [isdashboard, setDashBoard] = useState(false);
   const [selected, setSelected] = useState("");
   return (
     <motion.nav
@@ -49,13 +52,14 @@ export const SideBar = () => {
         selected={selected}
         onSelect={setSelected}
       />
-      <Options
-        Icon={NotebookPen}
-        title="Resumes"
-        open={open}
-        selected={selected}
-        onSelect={setSelected}
-      />
+      <motion.div
+        layout
+        onClick={() => setDashBoard(true)}
+        className={`font-bold justify-start flex group flex-row gap-4 cursor pointer p-2  rounded-md text-gray-600 hover:bg-gray-200 cursor-pointer`}
+      >
+        <Notebook />
+        {open && <motion.div layout></motion.div>}
+      </motion.div>
       <Options
         Icon={Star}
         title="Websites"
@@ -94,6 +98,7 @@ export const SideBar = () => {
         selected={selected}
         onSelect={setSelected}
       />
+      <Dashboard onDashBoard={isdashboard} />
     </motion.nav>
   );
 };
