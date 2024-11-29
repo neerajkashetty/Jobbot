@@ -8,6 +8,7 @@ import {
   PersonalInfoSchemaType,
 } from "../app/schemas/personalInfo.schema";
 import z from "zod";
+import { getResumes } from "../app/actions/getResumes";
 
 export function Dialog() {
   const { data: session } = useSession();
@@ -122,6 +123,7 @@ export function Dialog() {
         const isValid = await checkdb(username);
         console.log(isValid);
         setValid(isValid?.success);
+        await getResumes("1");
         // setOpen(true);
       } catch (error) {
         console.error("Error checking the database:", error);
