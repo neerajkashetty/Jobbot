@@ -1,98 +1,76 @@
 import { NextRequest, NextResponse } from "next/server";
-import { IncomingMessage } from "http";
-import formidable from "formidable";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
-import { Readable } from "stream";
 
 const prisma = new PrismaClient();
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION!,
+  region: "us-east-2",
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_Access_Key!,
+    secretAccessKey: process.env.AWS_Secret_Access_Key!,
   },
 });
 
+console.log(
+  process.env.AWS_Access_Key!,
+  process.env.AWS_Secret_Access_Key!,
+  process.env.AWS_REGION!,
+  "awkjaskjdn"
+);
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Helper to convert NextRequest to IncomingMessage
-const convertNextRequest = (req: NextRequest): IncomingMessage => {
-  // Create a custom Readable stream that mimics Socket interface
-  const readableStream = new Readable({
-    read() {
-      req.body?.pipeTo(
-        new WritableStream({
-          write: (chunk) => {
-            this.push(chunk);
-          },
-          close: () => {
-            this.push(null);
-          },
-        })
-      );
-    },
-  });
-
-  // Create IncomingMessage with a dummy socket
-  const incomingMessage = new IncomingMessage({
-    // Provide minimal socket-like object to satisfy type requirements
-    on: () => {},
-    removeListener: () => {},
-    end: () => {},
-  } as any);
-
-  incomingMessage.headers = Object.fromEntries(req.headers.entries());
-  incomingMessage.method = req.method;
-  incomingMessage.push = readableStream.push.bind(readableStream);
-  incomingMessage.read = readableStream.read.bind(readableStream);
-
-  return incomingMessage;
-};
-// Helper to parse form data using formidable
-const parseForm = async (
-  req: NextRequest
-): Promise<{ fields: any; files: any }> => {
-  const incomingMessage = convertNextRequest(req);
-  const form = formidable({ keepExtensions: true });
-
-  return new Promise((resolve, reject) => {
-    form.parse(incomingMessage, (err, fields, files) => {
-      if (err) reject(err);
-      resolve({ fields, files });
-    });
-  });
-};
-
-// POST handler
 export async function POST(req: NextRequest) {
   try {
-    const { fields, files } = await parseForm(req);
+    // Create a temporary file to store the uploaded content
+    const tempFilePath = path.join(
+      process.cwd(),
+      "uploads",
+      `${Date.now()}-upload`
+    );
 
-    const file = files.file;
-    if (!file) {
-      throw new Error("No file uploaded");
+    // Ensure uploads directory exists
+    if (!fs.existsSync(path.dirname(tempFilePath))) {
+      fs.mkdirSync(path.dirname(tempFilePath), { recursive: true });
     }
 
-    const tempFilePath = file.filepath;
+    // Stream request body to file
+    const fileStream = fs.createWriteStream(tempFilePath);
+    const reader = req.body!.getReader();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      fileStream.write(value);
+    }
+    fileStream.end();
+
+    // Wait for file writing to complete
+    await new Promise((resolve) => fileStream.on("finish", resolve));
+
+    // Get original filename from Content-Disposition header
+    const contentDisposition = req.headers.get("content-disposition");
+    const filenameMatch = contentDisposition?.match(/filename="?(.+)"?/i);
+    const originalFilename = filenameMatch
+      ? filenameMatch[1]
+      : `upload-${Date.now()}`;
 
     // Upload file to S3
     const bucketName = process.env.AWS_BUCKET_NAME!;
     const objectKey = `resumes/${Date.now()}_${path.basename(
-      file.originalFilename
+      originalFilename
     )}`;
 
     const command = new PutObjectCommand({
       Bucket: bucketName,
       Key: objectKey,
       Body: fs.createReadStream(tempFilePath),
-      ContentType: file.mimetype,
+      ContentType: "application/pdf",
     });
 
     await s3Client.send(command);
@@ -103,7 +81,7 @@ export async function POST(req: NextRequest) {
     // Save file metadata to database
     await prisma.resume.create({
       data: {
-        userId: "1", // Replace with your user ID logic
+        userId: "1", // Replace with actual user ID logic
         pdfUrl: fileUrl,
         jobTitle: "full",
       },

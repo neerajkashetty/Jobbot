@@ -68,29 +68,12 @@ export function GenerateResume() {
   const [isLoading, setIsLoading] = useState(false);
   const pdfRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   fetchStoredResumes();
-  // }, []);
-
-  // const fetchStoredResumes = async () => {
-  //   try {
-  //     // Replace with actual user ID from your auth system
-  //     const userId = 1;
-  //     const resumes = await getUserResumes(userId);
-  //     if (resumes) {
-  //       setStoredResumes(resumes);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to fetch resumes:", error);
-  //   }
-  // };
-
-  // Previous handler functions remain the same
   const handleDownload = async () => {
     if (!pdfRef.current) {
       console.error("PDF Reference not found");
       return;
     }
+    console.log("asldlaks");
 
     setIsLoading(true);
     try {
@@ -103,14 +86,16 @@ export function GenerateResume() {
         unit: "pt",
         format: "a4",
       });
+      console.log("asldlaks");
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
 
-      // Convert PDF to blob
       const pdfBlob = pdf.output("blob");
+
+      console.log("asldlaks");
 
       const formData = new FormData();
 
@@ -118,8 +103,6 @@ export function GenerateResume() {
       formData.append("jobtitle", jobtitle);
       formData.append("resumeData", JSON.stringify(resumedata));
 
-      // Save to database and storage
-      // Replace with actual user ID from your auth system
       const response = await fetch("/api/uploadResume", {
         method: "POST",
         body: formData,
@@ -135,10 +118,6 @@ export function GenerateResume() {
         alert("Failed to upload resume. Please try again.");
       }
 
-      // Refresh the stored resumes list
-      // await fetchStoredResumes();
-
-      // Also save locally
       pdf.save("Resume.pdf");
     } catch (error) {
       console.error("Failed to save resume:", error);
