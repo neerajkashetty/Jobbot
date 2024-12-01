@@ -16,6 +16,12 @@ export const SideBar = () => {
   const [open, setOpen] = useState(false);
   const [isdashboard, setDashBoard] = useState(false);
   const [selected, setSelected] = useState("");
+
+  const handleDashboard = () => {
+    setDashBoard(true);
+    setSelected("Dashboard");
+  };
+
   return (
     <motion.nav
       layout
@@ -54,11 +60,13 @@ export const SideBar = () => {
       />
       <motion.div
         layout
-        onClick={() => setDashBoard(true)}
-        className={`font-bold justify-start flex group flex-row gap-4 cursor pointer p-2  rounded-md text-gray-600 hover:bg-gray-200 cursor-pointer`}
+        onClick={handleDashboard}
+        className={`font-bold ${
+          selected === "Dashboard" ? "bg-gray-200" : ""
+        }  justify-start flex group flex-row gap-4 cursor pointer p-2  rounded-md text-gray-600 hover:bg-gray-200 cursor-pointer`}
       >
         <Notebook />
-        {open && <motion.div layout></motion.div>}
+        {open && <motion.div layout>Dashboard</motion.div>}
       </motion.div>
       <Options
         Icon={Star}
@@ -98,7 +106,7 @@ export const SideBar = () => {
         selected={selected}
         onSelect={setSelected}
       />
-      <Dashboard onDashBoard={isdashboard} />
+      <Dashboard onDashBoard={isdashboard} FDashBoard={setDashBoard} />
     </motion.nav>
   );
 };

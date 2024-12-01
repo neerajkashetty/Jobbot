@@ -4,14 +4,17 @@ import { getResumes } from "../app/actions/getResumes";
 import { ArrowBigLeft, FileText, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Dashboard({ onDashBoard }: { onDashBoard: boolean }) {
+export default function Dashboard({
+  onDashBoard,
+  FDashBoard,
+}: {
+  onDashBoard: boolean;
+  FDashBoard: any;
+}) {
   const { data: session } = useSession();
   const username = session?.user?.name ?? "";
   const [resumes, setResumes] = useState<any[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<string | null>(null);
-  const [open, setOpen] = useState<boolean>(onDashBoard);
-
-  console.log(onDashBoard);
 
   useEffect(() => {
     const fetchResumes = async () => {
@@ -36,18 +39,16 @@ export default function Dashboard({ onDashBoard }: { onDashBoard: boolean }) {
   }
 
   function handleDeleteResume(resumeId: string) {
-    // Implement resume deletion logic
-    // This would typically involve calling a server action to delete the resume
     setResumes(resumes.filter((resume) => resume.id !== resumeId));
   }
 
   function handleClose() {
-    setOpen(!onDashBoard);
+    FDashBoard(false);
   }
 
   return (
     <>
-      {open && (
+      {onDashBoard && (
         <AnimatePresence>
           <div className="absolute inset-0 h-screen flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
             <motion.div
