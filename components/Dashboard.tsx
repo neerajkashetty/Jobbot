@@ -7,9 +7,11 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Dashboard({
   onDashBoard,
   FDashBoard,
+  onSelect,
 }: {
   onDashBoard: boolean;
   FDashBoard: any;
+  onSelect: any;
 }) {
   const { data: session } = useSession();
   const username = session?.user?.name ?? "";
@@ -44,6 +46,7 @@ export default function Dashboard({
 
   function handleClose() {
     FDashBoard(false);
+    onSelect("");
   }
 
   return (
@@ -92,7 +95,7 @@ export default function Dashboard({
                       >
                         <FileText className="w-16 h-16 text-blue-500 mb-2" />
                         <p className="text-sm font-medium mb-2">
-                          {resume.filename || "Unnamed Resume"}
+                          {resume.jobTitle || "Unnamed Resume"}
                         </p>
                         <div className="flex gap-2 mt-2">
                           <button

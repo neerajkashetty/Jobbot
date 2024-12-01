@@ -28,6 +28,9 @@ export const config = {
 export async function POST(req: NextRequest) {
   try {
     // Create a temporary file to store the uploaded content
+
+    const data = await req.body;
+    console.log("whjat is hte bdoy", data);
     const tempFilePath = path.join(
       process.cwd(),
       "uploads",

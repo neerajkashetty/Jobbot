@@ -1,3 +1,5 @@
+import { Edit } from "lucide-react";
+
 interface Previewprops {
   resumedata: any;
   Firstname: string;
@@ -16,6 +18,10 @@ export const Preview = (props: Previewprops) => {
       <div className="flex text-md border h-1/12 justify-between items-center w-full p-2.5 ">
         <span className="cursor-pointer hover:border-b p-2 font-bold">
           Preview
+        </span>
+        <span className="cursor-pointer hover:border-b p-2 font-bold flex items-center gap-1">
+          Edit
+          <Edit className="w-4" />
         </span>
         <button
           onClick={() => props.generate()}

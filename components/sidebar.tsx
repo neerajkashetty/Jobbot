@@ -106,7 +106,11 @@ export const SideBar = () => {
         selected={selected}
         onSelect={setSelected}
       />
-      <Dashboard onDashBoard={isdashboard} FDashBoard={setDashBoard} />
+      <Dashboard
+        onDashBoard={isdashboard}
+        FDashBoard={setDashBoard}
+        onSelect={setSelected}
+      />
     </motion.nav>
   );
 };
