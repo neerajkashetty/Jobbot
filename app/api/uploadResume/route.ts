@@ -27,8 +27,6 @@ export const config = {
 
 export async function POST(req: NextRequest) {
   try {
-    // Create a temporary file to store the uploaded content
-
     const data = await req.body;
     console.log("whjat is hte bdoy", data);
     const tempFilePath = path.join(
@@ -37,12 +35,10 @@ export async function POST(req: NextRequest) {
       `${Date.now()}-upload`
     );
 
-    // Ensure uploads directory exists
     if (!fs.existsSync(path.dirname(tempFilePath))) {
       fs.mkdirSync(path.dirname(tempFilePath), { recursive: true });
     }
 
-    // Stream request body to file
     const fileStream = fs.createWriteStream(tempFilePath);
     const reader = req.body!.getReader();
 
@@ -53,17 +49,14 @@ export async function POST(req: NextRequest) {
     }
     fileStream.end();
 
-    // Wait for file writing to complete
     await new Promise((resolve) => fileStream.on("finish", resolve));
 
-    // Get original filename from Content-Disposition header
     const contentDisposition = req.headers.get("content-disposition");
     const filenameMatch = contentDisposition?.match(/filename="?(.+)"?/i);
     const originalFilename = filenameMatch
       ? filenameMatch[1]
       : `upload-${Date.now()}`;
 
-    // Upload file to S3
     const bucketName = process.env.AWS_BUCKET_NAME!;
     const objectKey = `resumes/${Date.now()}_${path.basename(
       originalFilename
@@ -78,10 +71,8 @@ export async function POST(req: NextRequest) {
 
     await s3Client.send(command);
 
-    // Generate S3 file URL
     const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${objectKey}`;
 
-    // Save file metadata to database
     await prisma.resume.create({
       data: {
         userId: "1",
@@ -90,7 +81,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Clean up temporary file
     fs.unlinkSync(tempFilePath);
 
     return NextResponse.json({ url: fileUrl });
