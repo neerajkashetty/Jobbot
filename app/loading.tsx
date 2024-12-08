@@ -16,7 +16,7 @@ export default function Loading() {
         animate={{ scale: 1, y: 0 }}
         className="font-bold text-center text-gray-300 items-center justify-center"
       >
-        We are getting things Reads...
+        We are getting things Ready...
       </motion.h1>
     </div>
   );

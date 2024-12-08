@@ -24,10 +24,10 @@ export default function Intro() {
           </motion.h1>
         </div>
         <TypingAnimation
-          classname="font-bold text-xl md:text-6xl relative "
+          classname="font-bold text-xl md:text-6xl relative top-4"
           text="F u l l , S t a c k , D e v e l o p e r . U I / U X , D e s i g n e r"
         />
-        <span className="text-2xl font-semibold text-gray-400 inline">
+        <span className="text-2xl font-semibold text-gray-400 inline relative">
           {" "}
           Use the Ai to make your job search easier by using the<br></br> custom
           resume builder you land the jobs with 10x faster
