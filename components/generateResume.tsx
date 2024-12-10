@@ -95,7 +95,7 @@ export function GenerateResume() {
 
       const pdfBlob = pdf.output("blob");
 
-      console.log("asldlaks");
+      console.log("asldlaks", jobtitle);
 
       const formData = new FormData();
 

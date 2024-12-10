@@ -13,12 +13,6 @@ const s3Client = new S3Client({
   },
 });
 
-console.log(
-  process.env.AWS_Access_Key!,
-  process.env.AWS_Secret_Access_Key!,
-  process.env.AWS_REGION!,
-  "awkjaskjdn"
-);
 export const config = {
   api: {
     bodyParser: false,
@@ -27,40 +21,67 @@ export const config = {
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.body;
-    console.log("whjat is hte bdoy", data);
+    const contentType = req.headers.get("content-type");
+    if (!contentType || !contentType.startsWith("multipart/form-data")) {
+      return NextResponse.json(
+        { error: "Invalid content type" },
+        { status: 400 }
+      );
+    }
+
+    const boundary = contentType.split("boundary=")[1];
+    if (!boundary) {
+      return NextResponse.json(
+        { error: "Boundary not found" },
+        { status: 400 }
+      );
+    }
+
+    const decoder = new TextDecoder();
+    const reader = req.body!.getReader();
+
+    let rawData = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      rawData += decoder.decode(value);
+    }
+
+    const parts = rawData.split(`--${boundary}`);
+    let jobTitle = "";
+    let fileData: Uint8Array | null = null;
+
+    for (const part of parts) {
+      if (part.includes("Content-Disposition")) {
+        if (part.includes('name="jobTitle"')) {
+          jobTitle = part.split("\r\n\r\n")[1]?.trim() || "";
+        } else if (part.includes('name="file"')) {
+          const fileStartIndex = part.indexOf("\r\n\r\n") + 4;
+          const fileEndIndex = part.lastIndexOf("--") - 2;
+          const fileContent = part.substring(fileStartIndex, fileEndIndex);
+          fileData = new Uint8Array(Buffer.from(fileContent, "binary"));
+        }
+      }
+    }
+
+    if (!fileData) {
+      return NextResponse.json({ error: "File not found" }, { status: 400 });
+    }
+
     const tempFilePath = path.join(
       process.cwd(),
       "uploads",
       `${Date.now()}-upload`
     );
-
     if (!fs.existsSync(path.dirname(tempFilePath))) {
       fs.mkdirSync(path.dirname(tempFilePath), { recursive: true });
     }
 
-    const fileStream = fs.createWriteStream(tempFilePath);
-    const reader = req.body!.getReader();
+    fs.writeFileSync(tempFilePath, fileData);
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      fileStream.write(value);
-    }
-    fileStream.end();
-
-    await new Promise((resolve) => fileStream.on("finish", resolve));
-
-    const contentDisposition = req.headers.get("content-disposition");
-    const filenameMatch = contentDisposition?.match(/filename="?(.+)"?/i);
-    const originalFilename = filenameMatch
-      ? filenameMatch[1]
-      : `upload-${Date.now()}`;
-
+    // (Remaining code for S3 upload and database insertion)
     const bucketName = process.env.AWS_BUCKET_NAME!;
-    const objectKey = `resumes/${Date.now()}_${path.basename(
-      originalFilename
-    )}`;
+    const objectKey = `resumes/${Date.now()}_uploadedFile.pdf`;
 
     const command = new PutObjectCommand({
       Bucket: bucketName,
@@ -77,7 +98,7 @@ export async function POST(req: NextRequest) {
       data: {
         userId: "1",
         pdfUrl: fileUrl,
-        jobTitle: "full",
+        jobTitle,
       },
     });
 
