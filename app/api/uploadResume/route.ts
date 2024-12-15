@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     for (const part of parts) {
       if (part.includes("Content-Disposition")) {
-        if (part.includes('name="jobTitle"')) {
+        if (part.includes('name="jobtitle"')) {
           jobTitle = part.split("\r\n\r\n")[1]?.trim() || "";
         } else if (part.includes('name="file"')) {
           const fileStartIndex = part.indexOf("\r\n\r\n") + 4;
@@ -79,7 +79,6 @@ export async function POST(req: NextRequest) {
 
     fs.writeFileSync(tempFilePath, fileData);
 
-    // (Remaining code for S3 upload and database insertion)
     const bucketName = process.env.AWS_BUCKET_NAME!;
     const objectKey = `resumes/${Date.now()}_uploadedFile.pdf`;
 
