@@ -63,7 +63,7 @@ export default function Dashboard({
             >
               <div className="flex justify-between items-center">
                 <h1 className="text-xl font-bold text-blue-700">
-                  {selectedPDF ? "PDF Viewer" : "Your Resumes"}
+                  {selectedPDF ? "PDF Viewer" : "Resume Dashboard"}
                 </h1>
                 {selectedPDF && (
                   <button
@@ -75,14 +75,14 @@ export default function Dashboard({
                 )}
                 <button
                   onClick={handleClose}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 font-bold hover:text-red-700"
                 >
                   Close
                 </button>
               </div>
 
               {!selectedPDF ? (
-                <div className="grid grid-cols-3 gap-4 overflow-y-auto">
+                <div className="grid grid-cols-4 gap-3 overflow-y-auto">
                   {resumes.length === 0 ? (
                     <p className="col-span-3 text-center text-gray-500">
                       No resumes uploaded yet
@@ -91,26 +91,24 @@ export default function Dashboard({
                     resumes.map((resume) => (
                       <div
                         key={resume.id}
-                        className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center"
+                        className="flex flex-col group items-center"
                       >
-                        <FileText className="w-16 h-16 text-blue-500 mb-2" />
-                        <p className="text-sm font-medium mb-2">
-                          {resume.jobTitle || "Unnamed Resume"}
-                        </p>
-                        <div className="flex gap-2 mt-2">
-                          <button
-                            onClick={() => handlePDFSelect(resume.pdfUrl)}
-                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                          >
-                            View
-                          </button>
-
-                          <button
-                            onClick={() => handleDeleteResume(resume.id)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <Trash2 />
-                          </button>
+                        <FileText
+                          onClick={() => handlePDFSelect(resume.pdfUrl)}
+                          className="w-12 h-12 text-blue-300 mb-2 hover:cursor-pointer"
+                        />
+                        <div className="flex gap-1">
+                          <p className="text-sm font-medium mb-2 text-blue-800">
+                            {resume.jobTitle || "Unnamed Resume"}
+                          </p>
+                          <div className=" invisible group-hover:visible">
+                            <button
+                              onClick={() => handleDeleteResume(resume.id)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              <Trash2 className="h-5" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))
