@@ -7,7 +7,7 @@ console.log(process.env.GOOGLE_CLIENTID);
 
 const prisma = new PrismaClient();
 
-export const authOptions = {
+const authOptions = {
   providers: [
     CredentialsProvider({
       type: "credentials",

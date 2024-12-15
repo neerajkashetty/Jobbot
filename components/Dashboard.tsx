@@ -82,7 +82,7 @@ export default function Dashboard({
               </div>
 
               {!selectedPDF ? (
-                <div className="grid grid-cols-4 gap-3 overflow-y-auto">
+                <div className="grid grid-cols-4 gap-3 mt-2 overflow-y-auto">
                   {resumes.length === 0 ? (
                     <p className="col-span-3 text-center text-gray-500">
                       No resumes uploaded yet
@@ -91,7 +91,7 @@ export default function Dashboard({
                     resumes.map((resume) => (
                       <div
                         key={resume.id}
-                        className="flex flex-col group items-center"
+                        className="flex flex-col group items-center mt-2"
                       >
                         <FileText
                           onClick={() => handlePDFSelect(resume.pdfUrl)}
