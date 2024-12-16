@@ -36,10 +36,10 @@ const authOptions = {
       },
     }),
 
-    Google({
-      clientId: process.env.GOOGLE_CLIENTID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENTSECRET ?? "",
-    }),
+    // Google({
+    //   clientId: process.env.GOOGLE_CLIENTID ?? "",
+    //   clientSecret: process.env.GOOGLE_CLIENTSECRET ?? "",
+    // }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
