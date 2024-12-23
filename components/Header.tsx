@@ -2,11 +2,9 @@
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Link } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Sun, Moon } from "lucide-react";
 
 export default function Header() {
-  const session = useSession();
   return (
     <div className=" h-1/12 w-full flex  justify-around relative ">
       <div className="flex flex-row w-1/2 justify-between">
@@ -27,12 +25,6 @@ export default function Header() {
         </div>
       </div>
       <div className="flex flex-row w-1/2 justify-between bg-gray-100 dark:bg-transparent">
-        <div className="flex justify-center font-bold group hover:cursor-pointer items-center ">
-          <h6 className="font-mono group-hover:bg-black p-1 rounded-lg flex items-center gap-1">
-            Saved
-            <p className="invisible group-hover:visible">- (1)</p>
-          </h6>
-        </div>
         <div className="flex font-bold group hover:cursor-pointer md:visible invisible text-center items-center">
           <a
             href="signin"

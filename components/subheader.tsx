@@ -14,14 +14,14 @@ export const Subheader = () => {
       <div className="flex flex-row font-semibold">
         <RenderIcons props={props} />
       </div>
-      <div className="flex flex-row gap-4 w-1/2 h-full justify-end focus:ring-black">
+      <div className="flex flex-row gap-4 w-1/2  h-full justify-end focus:ring-black">
         <Theme />
-        <div className="w-3/4 md:w-2/5 bg-slate-100 p-2 flex flex-row justify-between rounded-lg">
+        <div className="w-3/4 md:w-2/5 bg-slate-100 p-2 flex flex-row justify-between rounded-lg md:visible hidden">
           <input
             placeholder="Search"
             className="w-4/5 bg-slate-100 focus:outline-none"
           />
-          <Search className="text-gray-500" />
+          <Search className="text-gray-500 " />
         </div>
         <button className="w-1/3 bg-black text-white rounded-lg font-bold">
           + Upload

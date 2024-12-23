@@ -52,14 +52,14 @@ export default function Cover() {
         rotateY,
         transformStyle: "preserve-3d",
       }}
-      className="m-4 h-4/5 w-3/5 top-10 flex relative rounded-lg "
+      className="m-4 h-4/5 w-3/5 md:top-4 flex relative rounded-lg "
     >
       <Image
         src={"/images/resume.png"}
         alt="resume"
         width="500"
         height="40"
-        className="p-6 rounded-lg bg-white "
+        className=" md:p-4 rounded-lg bg-white "
       ></Image>
     </motion.div>
   );
