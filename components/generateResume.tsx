@@ -13,7 +13,6 @@ import { Clock, Download, ChevronDown, Eye } from "lucide-react";
 interface StoredResume {
   id: string;
   jobTitle: string;
-  content: any;
   pdfUrl: string;
   createdAt: string;
 }
@@ -112,6 +111,15 @@ export function GenerateResume() {
 
       if (result.url) {
         console.log("Resume uploaded successfully:", result.url);
+        setStoredResumes([
+          {
+            id: "1",
+            jobTitle: jobtitle,
+            pdfUrl: result.url,
+            createdAt: "Date.toString",
+          },
+        ]);
+        console.log(storedResumes);
         alert("Resume uploaded successfully!");
       } else {
         console.error("Failed to upload resume:", result.error);
@@ -128,6 +136,7 @@ export function GenerateResume() {
   };
 
   const handlePreview = (pdfUrl: string) => {
+    console.log(storedResumes, "ksjkl");
     setSelectedPdfUrl(pdfUrl);
     setIsPreviewOpen(true);
   };
