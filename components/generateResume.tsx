@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
+import { circInOut, motion } from "framer-motion";
 import { Preview } from "./preview";
 import { Dialog } from "./Dialog";
 import Example from "./combobox";
@@ -8,7 +9,7 @@ import { GenerateResumeSchema } from "../app/schemas/generateresume.schema";
 import type { ZodError } from "zod";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { Clock, Download, ChevronDown, Eye } from "lucide-react";
+import { Clock, Download, ChevronDown, Eye, Loader } from "lucide-react";
 
 interface StoredResume {
   id: string;
@@ -244,6 +245,19 @@ export function GenerateResume() {
                 </div>
               )}
             </div>
+
+            {isLoading && (
+              <div className="absolute inset-0 h-full w-full bg-blue-400/50 text-center flex items-center justify-center">
+                <motion.span
+                  animate={{ x: [0, 100, 0] }}
+                  transition={{ loop: Infinity, duration: 1, ease: "linear" }}
+                  className="bg-red-200"
+                >
+                  {" "}
+                  <Loader className="w-14 h-12 text-red-300 " />
+                </motion.span>
+              </div>
+            )}
             <div>
               <h1 className="font-bold mb-4">Content</h1>
               <div className="space-y-6">

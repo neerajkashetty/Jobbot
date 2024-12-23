@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 
@@ -35,11 +34,6 @@ const authOptions = {
         return null;
       },
     }),
-
-    // Google({
-    //   clientId: process.env.GOOGLE_CLIENTID ?? "",
-    //   clientSecret: process.env.GOOGLE_CLIENTSECRET ?? "",
-    // }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
