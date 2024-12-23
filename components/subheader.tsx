@@ -1,7 +1,6 @@
 import { House, NotebookPen, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { Theme } from "./Header";
-import { resume } from "../app/actions/ai";
 
 export const Subheader = () => {
   return (
@@ -16,7 +15,7 @@ export const Subheader = () => {
       </div>
       <div className="flex flex-row gap-4 w-1/2  h-full justify-end focus:ring-black">
         <Theme />
-        <div className="w-3/4 md:w-2/5 bg-slate-100 p-2 flex flex-row justify-between rounded-lg md:visible hidden">
+        <div className="w-3/4 md:w-2/5 bg-slate-100 p-2 flex flex-row justify-between rounded-lg md:visible invisble">
           <input
             placeholder="Search"
             className="w-4/5 bg-slate-100 focus:outline-none"

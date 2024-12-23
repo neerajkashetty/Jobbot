@@ -2,7 +2,6 @@ import {
   PanelRight,
   House,
   StickyNote,
-  NotebookPen,
   Star,
   Settings,
   Notebook,

@@ -166,7 +166,7 @@ export function GenerateResume() {
   };
 
   return (
-    <div className="flex md:flex-row h-screen overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen overflow-y-scroll md:overflow-hidden">
       <div className="w-full md:w-1/2 flex flex-col border">
         <div className="flex-1 overflow-y-auto px-4 py-6">
           <div className="max-w-2xl mx-auto space-y-8">
@@ -297,7 +297,6 @@ export function GenerateResume() {
           </div>
         </div>
       </div>
-
       <Preview
         ref={pdfRef}
         resumedata={resumedata}
@@ -306,13 +305,11 @@ export function GenerateResume() {
         Email=""
         generate={handleDownload}
       />
-
       <PreviewModal
         isOpen={isPreviewOpen}
         onClose={() => setIsPreviewOpen(false)}
         pdfUrl={selectedPdfUrl}
       />
-
       <Dialog />
     </div>
   );
