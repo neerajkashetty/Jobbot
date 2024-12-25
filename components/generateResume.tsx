@@ -10,6 +10,7 @@ import type { ZodError } from "zod";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { Clock, Download, ChevronDown, Eye, Loader } from "lucide-react";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 interface StoredResume {
   id: string;
@@ -153,6 +154,8 @@ export function GenerateResume() {
       return;
     }
 
+    setIsLoading(true);
+
     const resumeParams: ResumeParams = {
       jobtitle,
       skills: ["React", "Node", "typescript"],
@@ -170,6 +173,7 @@ export function GenerateResume() {
     try {
       const parsedData = JSON.parse(final);
       setResumeData(parsedData);
+      setIsLoading(false);
     } catch (error) {
       console.error("Failed to parse the resume data:", error);
     }
@@ -247,14 +251,22 @@ export function GenerateResume() {
             </div>
 
             {isLoading && (
-              <div className="absolute inset-0 h-full w-full bg-blue-400/50 text-center flex items-center justify-center">
+              <div className="absolute inset-0 h-full w-full bg-gray-100/50 text-center flex items-center justify-center">
                 <motion.span
-                  animate={{ x: [0, 100, 0] }}
                   transition={{ loop: Infinity, duration: 1, ease: "linear" }}
-                  className="bg-red-200"
+                  className=""
                 >
                   {" "}
-                  <Loader className="w-14 h-12 text-red-300 " />
+                  <Player
+                    autoplay
+                    loop
+                    src={"/images/ResumeLoader.json"}
+                    style={{
+                      height: "600px",
+                      width: "600px",
+                      background: "transparent",
+                    }}
+                  />
                 </motion.span>
               </div>
             )}
