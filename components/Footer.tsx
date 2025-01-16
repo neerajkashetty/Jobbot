@@ -1,5 +1,6 @@
 import { ChartNoAxesCombined, Timer, BriefcaseBusiness } from "lucide-react";
 
+//git test for the user config okay
 export default function Footer() {
   return (
     <div className=" w-full h-1/6 md:h-1/4 absolute  flex flex-row">
